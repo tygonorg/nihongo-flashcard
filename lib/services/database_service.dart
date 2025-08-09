@@ -301,6 +301,7 @@ class DatabaseService {
     required Vocab vocab,
     required int grade,
     required int nextInterval,
+    DateTime? reviewedAt,
   }) async {
     if (vocab.id == null) {
       throw ArgumentError('Cannot add review log for vocab without an ID');
@@ -309,7 +310,7 @@ class DatabaseService {
     final db = await database;
     final log = ReviewLog(
       vocabId: vocab.id!,
-      reviewedAt: DateTime.now(),
+      reviewedAt: reviewedAt ?? DateTime.now(),
       grade: grade,
       intervalAfter: nextInterval,
     );

@@ -18,11 +18,13 @@ class MockDatabaseService extends DatabaseService {
     required Vocab vocab,
     required int grade,
     required int nextInterval,
+    DateTime? reviewedAt,
   }) async {
     return TestDatabaseService.addReviewLog(
       vocab: vocab,
       grade: grade,
       nextInterval: nextInterval,
+      reviewedAt: reviewedAt,
     );
   }
 }
@@ -359,6 +361,8 @@ void main() {
         expect(logs.length, equals(1));
         expect(logs.first.grade, equals(4));
         expect(logs.first.intervalAfter, equals(1));
+        expect(logs.first.reviewedAt.millisecondsSinceEpoch,
+            equals(originalTime.millisecondsSinceEpoch));
       });
 
       test('should handle multiple consecutive reviews', () async {
