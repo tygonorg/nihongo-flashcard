@@ -74,6 +74,82 @@ class Vocab {
       updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt']),
     );
   }
+
+  /// Create a copy of this Vocab with specified fields replaced
+  Vocab copyWith({
+    int? id,
+    String? term,
+    String? meaning,
+    String? level,
+    String? note,
+    double? easiness,
+    int? repetitions,
+    int? intervalDays,
+    DateTime? lastReviewedAt,
+    DateTime? dueAt,
+    bool? favorite,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Vocab(
+      id: id ?? this.id,
+      term: term ?? this.term,
+      meaning: meaning ?? this.meaning,
+      level: level ?? this.level,
+      note: note ?? this.note,
+      easiness: easiness ?? this.easiness,
+      repetitions: repetitions ?? this.repetitions,
+      intervalDays: intervalDays ?? this.intervalDays,
+      lastReviewedAt: lastReviewedAt ?? this.lastReviewedAt,
+      dueAt: dueAt ?? this.dueAt,
+      favorite: favorite ?? this.favorite,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Vocab &&
+        other.id == id &&
+        other.term == term &&
+        other.meaning == meaning &&
+        other.level == level &&
+        other.note == note &&
+        other.easiness == easiness &&
+        other.repetitions == repetitions &&
+        other.intervalDays == intervalDays &&
+        other.lastReviewedAt == lastReviewedAt &&
+        other.dueAt == dueAt &&
+        other.favorite == favorite &&
+        other.createdAt == createdAt &&
+        other.updatedAt == updatedAt;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      id,
+      term,
+      meaning,
+      level,
+      note,
+      easiness,
+      repetitions,
+      intervalDays,
+      lastReviewedAt,
+      dueAt,
+      favorite,
+      createdAt,
+      updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Vocab{id: $id, term: $term, meaning: $meaning, level: $level, note: $note, easiness: $easiness, repetitions: $repetitions, intervalDays: $intervalDays, lastReviewedAt: $lastReviewedAt, dueAt: $dueAt, favorite: $favorite, createdAt: $createdAt, updatedAt: $updatedAt}';
+  }
 }
 
 class ReviewLog {
@@ -109,5 +185,49 @@ class ReviewLog {
       grade: map['grade'],
       intervalAfter: map['intervalAfter'],
     );
+  }
+
+  /// Create a copy of this ReviewLog with specified fields replaced
+  ReviewLog copyWith({
+    int? id,
+    int? vocabId,
+    DateTime? reviewedAt,
+    int? grade,
+    int? intervalAfter,
+  }) {
+    return ReviewLog(
+      id: id ?? this.id,
+      vocabId: vocabId ?? this.vocabId,
+      reviewedAt: reviewedAt ?? this.reviewedAt,
+      grade: grade ?? this.grade,
+      intervalAfter: intervalAfter ?? this.intervalAfter,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is ReviewLog &&
+        other.id == id &&
+        other.vocabId == vocabId &&
+        other.reviewedAt == reviewedAt &&
+        other.grade == grade &&
+        other.intervalAfter == intervalAfter;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      id,
+      vocabId,
+      reviewedAt,
+      grade,
+      intervalAfter,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'ReviewLog{id: $id, vocabId: $vocabId, reviewedAt: $reviewedAt, grade: $grade, intervalAfter: $intervalAfter}';
   }
 }

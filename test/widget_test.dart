@@ -10,22 +10,53 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../lib/app.dart';
-import '../lib/services/database_service.dart';
+import 'test_database_helper.dart';
 
 void main() {
-  testWidgets('App launches without crashing', (WidgetTester tester) async {
-    // Initialize DatabaseService for testing
-    final databaseService = DatabaseService.instance;
-    await databaseService.initialize();
-    
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: NihongoApp(),
-      ),
-    );
+  group('Widget Tests', () {
+    setUp(() async {
+      // Initialize test database before each test
+      await TestDatabaseService.initialize();
+      await TestDatabaseService.reset();
+    });
 
-    // Just verify that the app launches
-    expect(find.byType(MaterialApp), findsOneWidget);
+    tearDown(() async {
+      // Clean up after each test
+      await TestDatabaseService.reset();
+    });
+
+    testWidgets('App launches without crashing', (WidgetTester tester) async {
+      // Build our app and trigger a frame.
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: NihongoApp(),
+        ),
+      );
+
+      // Just verify that the app launches
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
+
+    testWidgets('App can be built multiple times', (WidgetTester tester) async {
+      // Test that we can rebuild the app without issues
+      // (this verifies our database isolation works)
+      
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: NihongoApp(),
+        ),
+      );
+      
+      expect(find.byType(MaterialApp), findsOneWidget);
+      
+      // Rebuild
+      await tester.pumpWidget(
+        const ProviderScope(
+          child: NihongoApp(),
+        ),
+      );
+      
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
   });
 }
