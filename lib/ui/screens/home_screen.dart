@@ -13,6 +13,8 @@ class HomeScreen extends StatelessWidget {
       _HomeItem(Icons.add_circle, 'Thêm từ', '/add'),
       _HomeItem(Icons.style, 'Flashcards', '/flash'),
       _HomeItem(Icons.quiz, 'Trắc nghiệm', '/quiz'),
+      _HomeItem(Icons.style_outlined, 'Kanji Flash', '/kanji-flash'),
+      _HomeItem(Icons.quiz_outlined, 'TN Kanji', '/kanji-quiz'),
       _HomeItem(Icons.rule, 'TN Ngữ pháp', '/grammar-quiz'),
       _HomeItem(Icons.menu_book, 'Ngữ pháp', '/grammar'),
       _HomeItem(Icons.auto_awesome, 'Thống kê & SRS', '/stats'),
