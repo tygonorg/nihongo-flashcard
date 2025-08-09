@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:flutter/foundation.dart';
 import '../lib/models/vocab.dart';
+import '../lib/models/review_log.dart';
 
 class TestDatabaseHelper {
   static Database? _database;

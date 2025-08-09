@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/vocab.dart';
+import '../../lib/models/review_log.dart';
 
 void main() {
   group('ReviewLog Model Tests', () {
