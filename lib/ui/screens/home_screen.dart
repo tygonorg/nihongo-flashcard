@@ -11,6 +11,8 @@ class HomeScreen extends StatelessWidget {
     final items = [
       _HomeItem(Icons.list_alt, 'Danh sách', '/list'),
       _HomeItem(Icons.add_circle, 'Thêm từ', '/add'),
+      _HomeItem(Icons.view_list, 'DS Kanji', '/kanji-list'),
+      _HomeItem(Icons.add_box, 'Thêm Kanji', '/kanji-add'),
       _HomeItem(Icons.style, 'Flashcards', '/flash'),
       _HomeItem(Icons.quiz, 'Trắc nghiệm', '/quiz'),
       _HomeItem(Icons.style_outlined, 'Kanji Flash', '/kanji-flash'),
