@@ -199,7 +199,7 @@ void main() {
         final fixedTime = DateTime(2024, 1, 1, 12, 0, 0);
         final vocab = _createTestVocab();
         
-        final preview = srsService.previewReview(vocab, 4);
+        final preview = srsService.previewReview(vocab, 4, reviewTime: fixedTime);
         final expectedDueDate = fixedTime.add(Duration(days: preview['intervalDays']));
         
         // Allow for small time differences due to DateTime.now() calls

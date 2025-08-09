@@ -112,26 +112,26 @@ class SrsService {
   
   /// Get the next suggested review interval without updating the vocab
   /// Useful for previewing what would happen with different grades
-  Map<String, dynamic> previewReview(Vocab vocab, int grade) {
-    if (grade < 0 || grade > 5) {
-      throw ArgumentError('Grade must be between 0 and 5, got: $grade');
+    Map<String, dynamic> previewReview(Vocab vocab, int grade, {DateTime? reviewTime}) {
+      if (grade < 0 || grade > 5) {
+        throw ArgumentError('Grade must be between 0 and 5, got: $grade');
+      }
+
+      final isPassing = grade >= passingGrade;
+      final newRepetitions = _calculateRepetitions(vocab.repetitions, isPassing);
+      final newEasiness = _calculateEasiness(vocab.easiness, grade);
+      final newInterval = _calculateInterval(newRepetitions, newEasiness, vocab.intervalDays, isPassing);
+      final newDueDate = _calculateDueDate(reviewTime ?? DateTime.now(), newInterval);
+
+      return {
+        'repetitions': newRepetitions,
+        'easiness': newEasiness,
+        'intervalDays': newInterval,
+        'dueAt': newDueDate,
+        'wasPromoted': isPassing && vocab.repetitions < newRepetitions,
+        'wasDemoted': !isPassing && vocab.repetitions > 0,
+      };
     }
-    
-    final isPassing = grade >= passingGrade;
-    final newRepetitions = _calculateRepetitions(vocab.repetitions, isPassing);
-    final newEasiness = _calculateEasiness(vocab.easiness, grade);
-    final newInterval = _calculateInterval(newRepetitions, newEasiness, vocab.intervalDays, isPassing);
-    final newDueDate = _calculateDueDate(DateTime.now(), newInterval);
-    
-    return {
-      'repetitions': newRepetitions,
-      'easiness': newEasiness,
-      'intervalDays': newInterval,
-      'dueAt': newDueDate,
-      'wasPromoted': isPassing && vocab.repetitions < newRepetitions,
-      'wasDemoted': !isPassing && vocab.repetitions > 0,
-    };
-  }
   
   /// Check if a vocab is due for review
   bool isDue(Vocab vocab, {DateTime? checkTime}) {
