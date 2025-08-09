@@ -129,7 +129,7 @@ flutter build apk
 
 ```
 lib/
-├── models/           # Realm models
+├── models/           # Data models
 ├── services/         # Business logic
 ├── providers/        # Riverpod providers
 ├── ui/
