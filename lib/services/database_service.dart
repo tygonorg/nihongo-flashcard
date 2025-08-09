@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import '../models/vocab.dart';
+import '../models/kanji.dart';
 
 class DatabaseService {
   static DatabaseService? _instance;
@@ -99,11 +100,49 @@ class DatabaseService {
       )
     ''');
 
+    // Create kanji table
+    await db.execute('''
+      CREATE TABLE kanjis (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        character TEXT NOT NULL,
+        onyomi TEXT NOT NULL,
+        kunyomi TEXT NOT NULL,
+        meaning TEXT NOT NULL,
+        hanviet TEXT NOT NULL,
+        level TEXT NOT NULL,
+        easiness REAL NOT NULL DEFAULT 2.5,
+        repetitions INTEGER NOT NULL DEFAULT 0,
+        intervalDays INTEGER NOT NULL DEFAULT 0,
+        lastReviewedAt INTEGER,
+        dueAt INTEGER,
+        favorite INTEGER NOT NULL DEFAULT 0,
+        createdAt INTEGER NOT NULL,
+        updatedAt INTEGER NOT NULL
+      )
+    ''');
+
+    // Create kanji_review_logs table
+    await db.execute('''
+      CREATE TABLE kanji_review_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        kanjiId INTEGER NOT NULL,
+        reviewedAt INTEGER NOT NULL,
+        grade INTEGER NOT NULL,
+        intervalAfter INTEGER NOT NULL,
+        FOREIGN KEY (kanjiId) REFERENCES kanjis (id) ON DELETE CASCADE
+      )
+    ''');
+
     // Create indexes for better performance
     await db.execute('CREATE INDEX idx_vocab_level ON vocabs (level)');
     await db.execute('CREATE INDEX idx_vocab_dueAt ON vocabs (dueAt)');
     await db.execute('CREATE INDEX idx_vocab_updatedAt ON vocabs (updatedAt)');
     await db.execute('CREATE INDEX idx_vocab_favorite ON vocabs (favorite)');
+
+    await db.execute('CREATE INDEX idx_kanji_level ON kanjis (level)');
+    await db.execute('CREATE INDEX idx_kanji_dueAt ON kanjis (dueAt)');
+    await db.execute('CREATE INDEX idx_kanji_updatedAt ON kanjis (updatedAt)');
+    await db.execute('CREATE INDEX idx_kanji_favorite ON kanjis (favorite)');
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
@@ -294,6 +333,163 @@ class DatabaseService {
     return maps.map((map) => Vocab.fromMap(map)).toList();
   }
 
+  // CRUD Operations for Kanji
+
+  /// Get all kanji, optionally filtered by level
+  Future<List<Kanji>> getAllKanjis({String? level}) async {
+    final db = await database;
+
+    String sql = 'SELECT * FROM kanjis';
+    List<dynamic> args = [];
+
+    if (level != null) {
+      sql += ' WHERE level = ?';
+      args.add(level);
+    }
+
+    sql += ' ORDER BY updatedAt DESC';
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery(sql, args);
+    return maps.map((map) => Kanji.fromMap(map)).toList();
+  }
+
+  /// Get kanji that are due for review
+  Future<List<Kanji>> getDueKanjis({int limit = 50, String? level}) async {
+    final db = await database;
+    final now = DateTime.now().millisecondsSinceEpoch;
+
+    String sql = 'SELECT * FROM kanjis WHERE (dueAt IS NULL OR dueAt <= ?)';
+    List<dynamic> args = [now];
+
+    if (level != null) {
+      sql += ' AND level = ?';
+      args.add(level);
+    }
+
+    sql += ' ORDER BY dueAt ASC LIMIT ?';
+    args.add(limit);
+
+    final List<Map<String, dynamic>> maps = await db.rawQuery(sql, args);
+    return maps.map((map) => Kanji.fromMap(map)).toList();
+  }
+
+  /// Add a new kanji
+  Future<Kanji> addKanji({
+    required String character,
+    required String onyomi,
+    required String kunyomi,
+    required String meaning,
+    required String hanviet,
+    required String level,
+    bool favorite = false,
+  }) async {
+    final db = await database;
+    final now = DateTime.now();
+
+    final kanji = Kanji(
+      character: character,
+      onyomi: onyomi,
+      kunyomi: kunyomi,
+      meaning: meaning,
+      hanviet: hanviet,
+      level: level,
+      favorite: favorite,
+      createdAt: now,
+      updatedAt: now,
+    );
+
+    final id = await db.insert('kanjis', kanji.toMap());
+    kanji.id = id;
+    return kanji;
+  }
+
+  /// Update an existing kanji
+  Future<void> updateKanji(
+    Kanji kanji, {
+    String? character,
+    String? onyomi,
+    String? kunyomi,
+    String? meaning,
+    String? hanviet,
+    String? level,
+    bool? favorite,
+  }) async {
+    if (kanji.id == null) {
+      throw ArgumentError('Cannot update kanji without an ID');
+    }
+
+    final db = await database;
+    kanji
+      ..character = character ?? kanji.character
+      ..onyomi = onyomi ?? kanji.onyomi
+      ..kunyomi = kunyomi ?? kanji.kunyomi
+      ..meaning = meaning ?? kanji.meaning
+      ..hanviet = hanviet ?? kanji.hanviet
+      ..level = level ?? kanji.level
+      ..favorite = favorite ?? kanji.favorite
+      ..updatedAt = DateTime.now();
+
+    await db.update(
+      'kanjis',
+      kanji.toMap(),
+      where: 'id = ?',
+      whereArgs: [kanji.id],
+    );
+  }
+
+  /// Update kanji SRS data (used by SrsService)
+  Future<void> updateKanjiSrsData(Kanji kanji) async {
+    if (kanji.id == null) {
+      throw ArgumentError('Cannot update kanji without an ID');
+    }
+
+    final db = await database;
+    kanji.updatedAt = DateTime.now();
+
+    await db.update(
+      'kanjis',
+      kanji.toMap(),
+      where: 'id = ?',
+      whereArgs: [kanji.id],
+    );
+  }
+
+  /// Delete a kanji
+  Future<void> deleteKanji(Kanji kanji) async {
+    if (kanji.id == null) {
+      throw ArgumentError('Cannot delete kanji without an ID');
+    }
+
+    final db = await database;
+    await db.delete(
+      'kanjis',
+      where: 'id = ?',
+      whereArgs: [kanji.id],
+    );
+  }
+
+  /// Add a review log entry for kanji
+  Future<void> addKanjiReviewLog({
+    required Kanji kanji,
+    required int grade,
+    required int nextInterval,
+    DateTime? reviewedAt,
+  }) async {
+    if (kanji.id == null) {
+      throw ArgumentError('Cannot add review log for kanji without an ID');
+    }
+
+    final db = await database;
+    final log = KanjiReviewLog(
+      kanjiId: kanji.id!,
+      reviewedAt: reviewedAt ?? DateTime.now(),
+      grade: grade,
+      intervalAfter: nextInterval,
+    );
+
+    await db.insert('kanji_review_logs', log.toMap());
+  }
+
   // Review Log Operations
 
   /// Add a review log entry
@@ -430,13 +626,17 @@ class DatabaseService {
     final db = await database;
     await db.delete('review_logs');
     await db.delete('vocabs');
+    await db.delete('kanji_review_logs');
+    await db.delete('kanjis');
   }
 
   /// Export all data as JSON-compatible map
   Future<Map<String, dynamic>> exportData() async {
     final vocabs = await getAllVocabs();
+    final kanjis = await getAllKanjis();
     return {
       'vocabs': vocabs.map((v) => v.toMap()).toList(),
+      'kanjis': kanjis.map((k) => k.toMap()).toList(),
       'exportedAt': DateTime.now().toIso8601String(),
       'version': 1,
     };
@@ -451,11 +651,19 @@ class DatabaseService {
       // Clear existing data
       await txn.delete('review_logs');
       await txn.delete('vocabs');
+      await txn.delete('kanji_review_logs');
+      await txn.delete('kanjis');
       
       // Import vocabs
       if (data['vocabs'] != null) {
         for (final vocabMap in data['vocabs']) {
           await txn.insert('vocabs', vocabMap);
+        }
+      }
+
+      if (data['kanjis'] != null) {
+        for (final kanjiMap in data['kanjis']) {
+          await txn.insert('kanjis', kanjiMap);
         }
       }
     });
