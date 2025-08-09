@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:flutter/foundation.dart';
 import '../models/vocab.dart';
+import '../models/review_log.dart';
 
 class RealmService {
   Database? _db;
