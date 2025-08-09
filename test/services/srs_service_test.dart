@@ -211,15 +211,15 @@ void main() {
                reason: 'Due date should be within 60 seconds of expected');
       });
 
-      test('should handle leap years and month boundaries', () {
+      test('should handle leap years and month boundaries', () async {
         final vocab = _createTestVocab(repetitions: 0);
         final testTime = DateTime(2024, 2, 28, 12, 0, 0); // Day before leap day
-        
-        final preview = srsService.previewReview(vocab, 4);
-        final dueDate = testTime.add(Duration(days: preview['intervalDays']));
-        
-        expect(dueDate.isAfter(testTime), isTrue);
-        expect(dueDate.day, isNot(equals(testTime.day))); // Should be a different day
+
+        await srsService.review(vocab, 4, reviewTime: testTime);
+        final expectedDueDate = testTime.add(const Duration(days: 1));
+
+        expect(vocab.dueAt, equals(expectedDueDate));
+        expect(vocab.dueAt!.day, equals(29));
       });
     });
 
