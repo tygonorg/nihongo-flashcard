@@ -1,4 +1,4 @@
-# Nihongo - Ứng dụng học từ vựng tiếng Nhật
+# Nihongo Flashcard - Ứng dụng học từ vựng tiếng Nhật
 
 Ứng dụng Flutter quản lý từ vựng tiếng Nhật với hệ thống SRS (Spaced Repetition System) và flashcards.
 
@@ -22,7 +22,7 @@
 ### 1. Clone repository
 ```bash
 git clone <repository-url>
-cd nihongo
+cd nihongo-flashcard
 ```
 
 ### 2. Cài đặt dependencies
@@ -97,7 +97,7 @@ flutter build apk
    - Device > Erase All Content and Settings
 
 3. **Reset app data (Android Emulator):**
-   - Settings > Apps > Nihongo > Storage > Clear Data
+   - Settings > Apps > Nihongo Flashcard > Storage > Clear Data
 
 ### Lỗi build iOS
 
@@ -191,7 +191,7 @@ Nếu gặp vấn đề, vui lòng:
 
 **Chúc bạn học tiếng Nhật vui vẻ! がんばって！** 🇯🇵
 
-# Nihongo MVP (Flutter + SQLite + SRS)
+# Nihongo Flashcard MVP (Flutter + SQLite + SRS)
 
 Ứng dụng học từ vựng tiếng Nhật: quản lý JLPT, flashcards, trắc nghiệm, thống kê + thuật toán SRS (SM-2 rút gọn).
 
