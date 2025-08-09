@@ -4,6 +4,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/foundation.dart';
 import '../models/vocab.dart';
+import '../models/review_log.dart';
 import '../models/kanji.dart';
 
 class DatabaseService {
@@ -12,9 +13,12 @@ class DatabaseService {
   bool _initialized = false;
   String? _initError;
 
+  // Default constructor for testing and mocking
+  DatabaseService();
+
   // Singleton pattern
   DatabaseService._internal();
-  
+
   static DatabaseService get instance {
     _instance ??= DatabaseService._internal();
     return _instance!;
