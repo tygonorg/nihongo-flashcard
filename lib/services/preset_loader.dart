@@ -12,7 +12,12 @@ class PresetLoader {
     final list = jsonDecode(raw) as List;
     var count = 0;
     for (final m in list) {
-      db.addVocab(term: m['term'], meaning: m['meaning'], level: m['level'], note: m['note']);
+      await db.addVocab(
+        term: m['term'],
+        meaning: m['meaning'],
+        level: m['level'],
+        note: m['note'],
+      );
       count++;
     }
     return count;
