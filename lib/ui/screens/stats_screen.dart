@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../models/vocab.dart';
 import '../../providers/providers.dart';
 
 class StatsScreen extends ConsumerWidget {
@@ -8,7 +7,7 @@ class StatsScreen extends ConsumerWidget {
   
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(realmServiceProvider);
+    final db = ref.watch(databaseServiceProvider);
     
     if (!db.isInitialized) {
       return const Scaffold(
@@ -72,12 +71,12 @@ class StatsScreen extends ConsumerWidget {
   }
   
   Future<Map<String, dynamic>> _loadStats(db) async {
-    final allVocabs = await db.allVocabs();
-    final dueVocabs = await db.dueVocabs(limit: 100000);
+    final allVocabs = await db.getAllVocabs();
+    final dueVocabs = await db.getDueVocabs(limit: 100000);
     
     final Map<String, int> byLevel = {};
     for (final lv in ['N5', 'N4', 'N3', 'N2', 'N1']) {
-      final levelVocabs = await db.allVocabs(level: lv);
+      final levelVocabs = await db.getAllVocabs(level: lv);
       byLevel[lv] = levelVocabs.length;
     }
     

@@ -1,4 +1,4 @@
-package com.example.nihongo
+package mocvien.com.nihongoapp
 
 import io.flutter.embedding.android.FlutterActivity
 

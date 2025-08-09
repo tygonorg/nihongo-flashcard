@@ -22,8 +22,8 @@ class _State extends ConsumerState<FlashcardsScreen> {
   }
 
   void _loadDeck() async {
-    final db = ref.read(realmServiceProvider);
-    final vocabs = await db.dueVocabs(limit: 50, level: ref.read(selectedLevelProvider));
+    final db = ref.read(databaseServiceProvider);
+    final vocabs = await db.getDueVocabs(limit: 50, level: ref.read(selectedLevelProvider));
     deck = vocabs;
     deck.shuffle(Random());
     setState(() {

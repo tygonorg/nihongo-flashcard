@@ -10,7 +10,7 @@ class VocabListScreen extends ConsumerWidget {
   const VocabListScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(realmServiceProvider);
+    final db = ref.watch(databaseServiceProvider);
     final level = ref.watch(selectedLevelProvider);
 
     final levels = const ['N5', 'N4', 'N3', 'N2', 'N1'];
@@ -53,7 +53,7 @@ class VocabListScreen extends ConsumerWidget {
           const Divider(height: 1),
           Expanded(
             child: FutureBuilder<List<Vocab>>(
-              future: db.allVocabs(level: level),
+              future: db.getAllVocabs(level: level),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());

@@ -24,8 +24,8 @@ class _State extends ConsumerState<QuizScreen> {
   }
 
   void _newQuiz() async {
-    final db = ref.read(realmServiceProvider);
-    final result = await db.allVocabs(level: ref.read(selectedLevelProvider));
+    final db = ref.read(databaseServiceProvider);
+    final result = await db.getAllVocabs(level: ref.read(selectedLevelProvider));
     pool = result;
     qIndex = 0;
     correct = 0;

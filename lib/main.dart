@@ -1,24 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
-import 'services/realm_service.dart';
+import 'services/database_service.dart';
+import 'services/migration_service.dart';
 import 'app.dart';
-import 'providers/providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   
-  final realmService = RealmService();
+  final databaseService = DatabaseService.instance;
   
   try {
-    await realmService.initialize();
+    // Check if migration is needed and perform it
+    if (await MigrationService.needsMigration()) {
+      if (kDebugMode) {
+        print('Migration needed, starting migration process...');
+      }
+      
+      final migrationResult = await MigrationService.migrate();
+      if (migrationResult.success) {
+        if (kDebugMode) {
+          print('Migration completed successfully: ${migrationResult.message}');
+        }
+      } else {
+        if (kDebugMode) {
+          print('Migration failed: ${migrationResult.message}');
+        }
+        // Continue anyway, as the app might still work
+      }
+    }
+    
+    // Initialize the database service
+    await databaseService.initialize();
     
     runApp(
-      ProviderScope(
-        overrides: [
-          realmServiceProvider.overrideWithValue(realmService),
-        ],
-        child: const NihongoApp(),
+      const ProviderScope(
+        child: NihongoApp(),
       ),
     );
   } catch (e, stackTrace) {
@@ -47,7 +64,7 @@ void main() async {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Chi tiết lỗi: ${realmService.initializationError ?? e.toString()}',
+                  'Chi tiết lỗi: ${databaseService.initializationError ?? e.toString()}',
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.grey),
                 ),
@@ -55,14 +72,11 @@ void main() async {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await realmService.initialize();
+                      await databaseService.initialize();
                       // Restart app nếu khởi tạo thành công
                       runApp(
-                        ProviderScope(
-                          overrides: [
-                            realmServiceProvider.overrideWithValue(realmService),
-                          ],
-                          child: const NihongoApp(),
+                        const ProviderScope(
+                          child: NihongoApp(),
                         ),
                       );
                     } catch (retryError) {

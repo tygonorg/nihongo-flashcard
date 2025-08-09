@@ -30,7 +30,7 @@ class _State extends ConsumerState<AddEditVocabScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final db = ref.watch(realmServiceProvider);
+    final db = ref.watch(databaseServiceProvider);
     return Scaffold(
       appBar: AppBar(title: Text(widget.vocab == null ? 'Thêm từ' : 'Sửa từ')),
       body: Form(
@@ -84,22 +84,12 @@ class _State extends ConsumerState<AddEditVocabScreen> {
                     }
                     
                     if (widget.vocab == null) {
-                      final result = await db.addVocab(
+                      await db.addVocab(
                         term: _term, 
                         meaning: _meaning, 
                         level: _level, 
                         note: _note
                       );
-                      
-                      if (result == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Không thể thêm từ vựng. Vui lòng thử lại.'),
-                            backgroundColor: Colors.red,
-                          ),
-                        );
-                        return;
-                      }
                     } else {
                       await db.updateVocab(
                         widget.vocab!, 

@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'realm_service.dart';
+import 'database_service.dart';
 
 class PresetLoader {
-  final RealmService db;
+  final DatabaseService db;
   PresetLoader(this.db);
 
   /// JSON format: [{"term":"猫","meaning":"con mèo","level":"N5","note":"neko"}, ...]

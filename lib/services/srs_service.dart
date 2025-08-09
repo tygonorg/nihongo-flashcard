@@ -1,8 +1,8 @@
 import '../models/vocab.dart';
-import 'realm_service.dart';
+import 'database_service.dart';
 
 class SrsService {
-  final RealmService db;
+  final DatabaseService db;
   SrsService(this.db);
 
   /// grade: 0..5 (0 = quên sạch, 5 = nhớ rất tốt)
@@ -30,14 +30,9 @@ class SrsService {
     vocab.dueAt = now.add(Duration(days: interval));
     vocab.updatedAt = now;
     
-    await db.updateVocab(vocab,
-      term: vocab.term,
-      meaning: vocab.meaning,
-      level: vocab.level,
-      note: vocab.note,
-    );
+    await db.updateVocabSrsData(vocab);
 
-    await db.upsertReviewLog(
+    await db.addReviewLog(
       vocab: vocab, 
       grade: grade, 
       nextInterval: vocab.intervalDays

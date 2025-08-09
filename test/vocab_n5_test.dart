@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nihongo_mvp/services/realm_service.dart';
+import '../lib/services/database_service.dart';
 
 void main() {
   if (!Platform.isAndroid && !Platform.isIOS) {
@@ -8,10 +8,10 @@ void main() {
     return;
   }
   group('Tạo từ vựng N5', () {
-    late RealmService db;
+    late DatabaseService db;
 
     setUp(() async {
-      db = RealmService();
+      db = DatabaseService.instance;
       await db.initialize();
     });
 
@@ -26,8 +26,7 @@ void main() {
       for (final w in words) {
         final v = await db.addVocab(
             term: w['term']!, meaning: w['meaning']!, level: w['level']!);
-        expect(v, isNotNull);
-        expect(v!.term, w['term']);
+        expect(v.term, w['term']);
         expect(v.meaning, w['meaning']);
         expect(v.level, w['level']);
       }

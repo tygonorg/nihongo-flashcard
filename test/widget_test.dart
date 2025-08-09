@@ -9,22 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:nihongo_mvp/app.dart';
-import 'package:nihongo_mvp/services/realm_service.dart';
-import 'package:nihongo_mvp/providers/providers.dart';
+import '../lib/app.dart';
+import '../lib/services/database_service.dart';
 
 void main() {
   testWidgets('App launches without crashing', (WidgetTester tester) async {
-    // Mock RealmService for testing
-    final mockRealmService = RealmService();
+    // Initialize DatabaseService for testing
+    final databaseService = DatabaseService.instance;
+    await databaseService.initialize();
     
     // Build our app and trigger a frame.
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          realmServiceProvider.overrideWithValue(mockRealmService),
-        ],
-        child: const NihongoApp(),
+      const ProviderScope(
+        child: NihongoApp(),
       ),
     );
 

@@ -93,16 +93,6 @@ class RealmService {
   Future<List<Vocab>> allVocabs({String? level}) async {
     if (_db == null) return [];
 
-    String sql = 'SELECT * FROM vocabs';
-    List<dynamic> args = [];
-
-    if (level != null) {
-      sql += ' WHERE level = ?';
-      args.add(level);
-    }
-
-    sql += ' ORDER BY updatedAt DESC';
-
     final List<Map<String, dynamic>> maps = await _db!.query(
       'vocabs',
       where: level != null ? 'level = ?' : null,
