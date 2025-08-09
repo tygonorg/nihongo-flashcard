@@ -10,11 +10,12 @@ void main() {
   group('Tạo từ vựng N5', () {
     late RealmService db;
 
-    setUp(() {
+    setUp(() async {
       db = RealmService();
+      await db.initialize();
     });
 
-    test('Thêm một số từ N5', () {
+    test('Thêm một số từ N5', () async {
       final words = [
         {'term': '水', 'meaning': 'nước', 'level': 'N5'},
         {'term': '火', 'meaning': 'lửa', 'level': 'N5'},
@@ -23,7 +24,7 @@ void main() {
         {'term': '空', 'meaning': 'bầu trời', 'level': 'N5'},
       ];
       for (final w in words) {
-        final v = db.addVocab(
+        final v = await db.addVocab(
             term: w['term']!, meaning: w['meaning']!, level: w['level']!);
         expect(v, isNotNull);
         expect(v!.term, w['term']);
