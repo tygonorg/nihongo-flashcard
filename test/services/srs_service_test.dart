@@ -1,13 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import '../test_database_helper.dart';
-import '../../lib/services/srs_service.dart';
-import '../../lib/services/database_service.dart';
-import '../../lib/models/vocab.dart';
+import 'package:nihongo_flashcard/services/srs_service.dart';
+import 'package:nihongo_flashcard/services/database_service.dart';
+import 'package:nihongo_flashcard/models/vocab.dart';
 
 /// Mock DatabaseService that implements the interface needed by SrsService
 class MockDatabaseService extends DatabaseService {
-  MockDatabaseService() : super();
-
   @override
   Future<void> updateVocabSrsData(Vocab vocab) async {
     return TestDatabaseService.updateVocabSrsData(vocab);
