@@ -1,14 +1,15 @@
-# Nihongo Flashcard - Ứng dụng học từ vựng tiếng Nhật
+# Nihongo Flashcard - Ứng dụng học từ vựng và ngữ pháp tiếng Nhật
 
-Ứng dụng Flutter quản lý từ vựng tiếng Nhật với hệ thống SRS (Spaced Repetition System) và flashcards.
+Ứng dụng Flutter quản lý từ vựng, ngữ pháp tiếng Nhật với hệ thống SRS (Spaced Repetition System) và flashcards.
 
 ## ✨ Tính năng
 
 - 📚 Quản lý từ vựng theo cấp độ JLPT (N5-N1)
+- 📖 Thư viện ngữ pháp JLPT với ví dụ
 - 🔄 Hệ thống ôn tập theo khoảng cách (SRS)
 - 📱 Flashcards tương tác
+- 🎯 Quiz và kiểm tra (từ vựng & ngữ pháp)
 - 📊 Thống kê học tập
-- 🎯 Quiz và kiểm tra
 
 ## 🛠️ Yêu cầu hệ thống
 
@@ -129,16 +130,20 @@ flutter build apk
 
 ```
 lib/
-├── models/           # Data models
-├── services/         # Business logic
-├── providers/        # Riverpod providers
+├── models/
+│   ├── vocab.dart       # Model từ vựng
+│   └── grammar.dart     # Model ngữ pháp
+├── services/            # Business logic
+├── providers/           # Riverpod providers
 ├── ui/
-│   ├── screens/     # Màn hình chính
-│   └── widgets/     # UI components
-├── router.dart      # Navigation routes
-├── theme.dart       # App theming
-├── app.dart         # Main app widget
-└── main.dart        # Entry point
+│   ├── screens/         # Màn hình chính
+│   │   ├── grammar_list_screen.dart  # Danh sách ngữ pháp
+│   │   └── grammar_quiz_screen.dart  # Trắc nghiệm ngữ pháp
+│   └── widgets/         # UI components
+├── router.dart          # Navigation routes
+├── theme.dart           # App theming
+├── app.dart             # Main app widget
+└── main.dart            # Entry point
 ```
 
 ## 🔄 Cách thêm từ vựng mới
@@ -202,20 +207,23 @@ flutter run
 ```
 
 ## Cấu trúc
-- `lib/models/vocab.dart`: SQLite models (không cần generate)
+- `lib/models/vocab.dart`: Model từ vựng
+- `lib/models/grammar.dart`: Model ngữ pháp
 - `lib/services/realm_service.dart`: SQLite CRUD + query + due list
 - `lib/services/srs_service.dart`: SM-2 rút gọn
 - `lib/services/preset_loader.dart`: import JSON
 - `lib/providers/providers.dart`: Riverpod providers
-- `lib/ui/screens/*`: Home, List, Add/Edit, Flashcards, Quiz, Stats
+- `lib/ui/screens/*`: Home, List, Add/Edit, Flashcards, Quiz, Stats, GrammarList, GrammarQuiz
 - `lib/ui/widgets/*`: LevelChip, VocabTile, StatCard
 - `assets/presets/n5.json`: dữ liệu mẫu N5
+- `assets/presets/grammar_*.json`: preset ngữ pháp từng cấp
 
 ## Thay đổi chính
 - **✅ Thay thế Realm bằng SQLite**: ổn định hơn trên iOS/Android
 - **✅ Không cần code generation**: Models đơn giản với toMap/fromMap
 - **✅ Hỗ trợ đầy đủ async/await**: UI responsive hơn
 - **✅ Database migration tự động**: Tương thích ngược
+- **✨ Thêm module ngữ pháp**: danh sách và trắc nghiệm theo cấp JLPT
 
 ## Lưu ý
 - SQLite database tự động tạo khi khởi động app lần đầu
