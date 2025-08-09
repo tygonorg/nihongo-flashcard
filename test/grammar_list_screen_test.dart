@@ -14,4 +14,19 @@ void main() {
     expect(find.text('は'), findsOneWidget);
     expect(find.text('trợ từ chỉ chủ đề'), findsOneWidget);
   });
+
+  testWidgets('GrammarListScreen allows level selection', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: GrammarListScreen()));
+
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('levelDropdown')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('N4').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Ngữ pháp N4'), findsOneWidget);
+    expect(find.text('べきだ'), findsOneWidget);
+  });
 }

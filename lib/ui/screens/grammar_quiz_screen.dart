@@ -19,6 +19,8 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
   int correct = 0;
   List<Grammar> options = [];
   Grammar? current;
+  String _level = 'n5';
+  static const _levels = ['n5', 'n4', 'n3', 'n2', 'n1'];
 
   @override
   void initState() {
@@ -29,7 +31,7 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
   Future<void> _load() async {
     try {
       final raw =
-          await rootBundle.loadString('assets/presets/grammar_n5.json');
+          await rootBundle.loadString('assets/presets/grammar_$_level.json');
       final list = jsonDecode(raw) as List;
       pool =
           list.map((e) => Grammar.fromMap(e as Map<String, dynamic>)).toList();
@@ -38,6 +40,7 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
     } catch (e) {
       // ignore: avoid_print
       print('Error loading grammar: $e');
+      setState(() {});
     }
   }
 
@@ -53,16 +56,59 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
       ..shuffle(rng);
   }
 
+  void _changeLevel(String? level) {
+    if (level == null || level == _level) return;
+    setState(() {
+      _level = level;
+      pool = [];
+      options = [];
+      current = null;
+      qIndex = 0;
+      correct = 0;
+    });
+    _load();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (current == null || options.isEmpty) {
       return Scaffold(
-          appBar: AppBar(title: const Text('Trắc nghiệm Ngữ pháp')),
+          appBar: AppBar(
+            title: Text('Trắc nghiệm Ngữ pháp ${_level.toUpperCase()}'),
+            actions: [
+              DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  key: const Key('levelDropdownQuiz'),
+                  value: _level,
+                  onChanged: _changeLevel,
+                  items: _levels
+                      .map((l) => DropdownMenuItem(
+                          value: l, child: Text(l.toUpperCase())))
+                      .toList(),
+                ),
+              )
+            ],
+          ),
           body: const Center(child: Text('Chưa đủ dữ liệu.')));
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Trắc nghiệm Ngữ pháp')),
+      appBar: AppBar(
+        title: Text('Trắc nghiệm Ngữ pháp ${_level.toUpperCase()}'),
+        actions: [
+          DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              key: const Key('levelDropdownQuiz'),
+              value: _level,
+              onChanged: _changeLevel,
+              items: _levels
+                  .map((l) =>
+                      DropdownMenuItem(value: l, child: Text(l.toUpperCase())))
+                  .toList(),
+            ),
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -108,4 +154,3 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
     );
   }
 }
-
