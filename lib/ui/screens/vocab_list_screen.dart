@@ -84,7 +84,7 @@ class VocabListScreen extends ConsumerWidget {
                   itemCount: vocabs.length,
                   itemBuilder: (_, i) => VocabTile(
                     vocabs[i],
-                    onTap: () => context.go('/add', extra: vocabs[i]),
+                    onTap: () => context.push('/add', extra: vocabs[i]),
                   ),
                 );
               },
@@ -93,7 +93,7 @@ class VocabListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/add'),
+        onPressed: () => context.push('/add'),
         child: const Icon(Icons.add),
       ),
     );

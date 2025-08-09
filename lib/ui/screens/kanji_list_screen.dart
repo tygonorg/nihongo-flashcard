@@ -80,7 +80,7 @@ class KanjiListScreen extends ConsumerWidget {
                   itemCount: kanjis.length,
                   itemBuilder: (_, i) => KanjiTile(
                     kanjis[i],
-                    onTap: () => context.go('/kanji-add', extra: kanjis[i]),
+                    onTap: () => context.push('/kanji-add', extra: kanjis[i]),
                   ),
                 );
               },
@@ -89,7 +89,7 @@ class KanjiListScreen extends ConsumerWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/kanji-add'),
+        onPressed: () => context.push('/kanji-add'),
         child: const Icon(Icons.add),
       ),
     );
