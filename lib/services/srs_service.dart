@@ -59,13 +59,14 @@ class SrsService {
     vocab.lastReviewedAt = now;
     vocab.dueAt = _calculateDueDate(now, newInterval);
     vocab.updatedAt = now;
-    
+
     await db.updateVocabSrsData(vocab);
 
     await db.addReviewLog(
-      vocab: vocab, 
-      grade: grade, 
-      nextInterval: newInterval
+      vocab: vocab,
+      grade: grade,
+      nextInterval: newInterval,
+      reviewedAt: now,
     );
   }
   
