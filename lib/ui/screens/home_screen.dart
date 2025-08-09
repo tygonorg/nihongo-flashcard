@@ -1,57 +1,84 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../providers/providers.dart';
+import '../../models/vocab.dart';
+import '../../models/kanji.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isTablet = MediaQuery.of(context).size.shortestSide >= 600;
-    final gridCount = isTablet ? 3 : 2;
-    final items = [
-      _HomeItem(Icons.list_alt, 'Danh sách', '/list'),
-      _HomeItem(Icons.add_circle, 'Thêm từ', '/add'),
-      _HomeItem(Icons.view_list, 'DS Kanji', '/kanji-list'),
-      _HomeItem(Icons.add_box, 'Thêm Kanji', '/kanji-add'),
-      _HomeItem(Icons.style, 'Flashcards', '/flash'),
-      _HomeItem(Icons.quiz, 'Trắc nghiệm', '/quiz'),
-      _HomeItem(Icons.style_outlined, 'Kanji Flash', '/kanji-flash'),
-      _HomeItem(Icons.quiz_outlined, 'TN Kanji', '/kanji-quiz'),
-      _HomeItem(Icons.rule, 'TN Ngữ pháp', '/grammar-quiz'),
-      _HomeItem(Icons.menu_book, 'Ngữ pháp', '/grammar'),
-      _HomeItem(Icons.auto_awesome, 'Thống kê & SRS', '/stats'),
-    ];
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final db = ref.watch(databaseServiceProvider);
+    if (!db.isInitialized) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
     return Scaffold(
-      appBar: AppBar(title: const Text('Nihongo – Học từ vựng')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: GridView.count(
-          crossAxisCount: gridCount,
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          children: [
-            for (final it in items)
-              InkWell(
-                onTap: () => context.push(it.route),
-                child: Card(
-                  elevation: 1,
-                  child: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Icon(it.icon, size: 40), const SizedBox(height: 12), Text(it.title)],
-                    ),
-                  ),
+      appBar: AppBar(title: const Text('Trang chủ')),
+      body: FutureBuilder<_HomeData>(
+        future: _load(db),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final data = snapshot.data!;
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Card(
+                child: ListTile(
+                  title: const Text('Tổng số từ vựng'),
+                  trailing: Text('${data.vocabCount}'),
                 ),
               ),
-          ],
-        ),
+              Card(
+                child: ListTile(
+                  title: const Text('Tổng số kanji'),
+                  trailing: Text('${data.kanjiCount}'),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text('Từ vựng mới thêm'),
+              const SizedBox(height: 8),
+              for (final v in data.recentVocabs)
+                ListTile(title: Text(v.term), subtitle: Text(v.meaning)),
+              const SizedBox(height: 16),
+              const Text('Kanji gần đây'),
+              const SizedBox(height: 8),
+              for (final k in data.recentKanjis)
+                ListTile(title: Text(k.character), subtitle: Text(k.meaning)),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: () => context.push('/stats'),
+                child: const Text('Xem thống kê chi tiết'),
+              ),
+            ],
+          );
+        },
       ),
+    );
+  }
+
+  Future<_HomeData> _load(db) async {
+    final vocabs = await db.getAllVocabs();
+    final kanjis = await db.getAllKanjis();
+    return _HomeData(
+      vocabs.length,
+      kanjis.length,
+      vocabs.take(5).toList(),
+      kanjis.take(5).toList(),
     );
   }
 }
 
-class _HomeItem {
-  final IconData icon; final String title; final String route;
-  _HomeItem(this.icon, this.title, this.route);
+class _HomeData {
+  final int vocabCount;
+  final int kanjiCount;
+  final List<Vocab> recentVocabs;
+  final List<Kanji> recentKanjis;
+  _HomeData(
+      this.vocabCount, this.kanjiCount, this.recentVocabs, this.recentKanjis);
 }
