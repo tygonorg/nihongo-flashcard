@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 
 import '../lib/app.dart';
 import 'test_database_helper.dart';
@@ -27,36 +27,30 @@ void main() {
 
     testWidgets('App launches without crashing', (WidgetTester tester) async {
       // Build our app and trigger a frame.
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: NihongoApp(),
-        ),
-      );
+        await tester.pumpWidget(
+          const NihongoApp(),
+        );
 
-      // Just verify that the app launches
-      expect(find.byType(MaterialApp), findsOneWidget);
+        // Just verify that the app launches
+        expect(find.byType(GetMaterialApp), findsOneWidget);
     });
 
     testWidgets('App can be built multiple times', (WidgetTester tester) async {
       // Test that we can rebuild the app without issues
       // (this verifies our database isolation works)
       
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: NihongoApp(),
-        ),
-      );
-      
-      expect(find.byType(MaterialApp), findsOneWidget);
-      
-      // Rebuild
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: NihongoApp(),
-        ),
-      );
-      
-      expect(find.byType(MaterialApp), findsOneWidget);
+        await tester.pumpWidget(
+          const NihongoApp(),
+        );
+
+        expect(find.byType(GetMaterialApp), findsOneWidget);
+
+        // Rebuild
+        await tester.pumpWidget(
+          const NihongoApp(),
+        );
+
+        expect(find.byType(GetMaterialApp), findsOneWidget);
     });
   });
 }

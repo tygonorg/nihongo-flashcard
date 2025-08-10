@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/providers.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
 
-class StatsScreen extends ConsumerWidget {
-  const StatsScreen({super.key});
-  
+class StatsScreen extends StatelessWidget {
+  StatsScreen({super.key});
+
+  final DatabaseService db = locator<DatabaseService>();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(databaseServiceProvider);
+  Widget build(BuildContext context) {
     
     if (!db.isInitialized) {
       return const Scaffold(
@@ -70,7 +71,7 @@ class StatsScreen extends ConsumerWidget {
     );
   }
   
-  Future<Map<String, dynamic>> _loadStats(db) async {
+    Future<Map<String, dynamic>> _loadStats(DatabaseService db) async {
     final allVocabs = await db.getAllVocabs();
     final dueVocabs = await db.getDueVocabs(limit: 100000);
     

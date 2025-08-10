@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../providers/providers.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
 import '../../models/vocab.dart';
 import '../../models/kanji.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
+
+  final DatabaseService db = locator<DatabaseService>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final db = ref.watch(databaseServiceProvider);
+  Widget build(BuildContext context) {
     if (!db.isInitialized) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -62,7 +63,7 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Future<_HomeData> _load(db) async {
+  Future<_HomeData> _load(DatabaseService db) async {
     final vocabs = await db.getAllVocabs();
     final kanjis = await db.getAllKanjis();
     return _HomeData(
