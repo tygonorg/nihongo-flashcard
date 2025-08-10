@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "🚀 Testing Nihongo App on both iOS and Android"
 
 # Kiểm tra Flutter doctor
@@ -23,24 +25,20 @@ echo "🔍 Running static analysis..."
 flutter analyze
 
 echo ""
-echo "🏗️  Testing iOS build..."
-flutter build ios --no-codesign
-if [ $? -eq 0 ]; then
-    echo "✅ iOS build successful!"
-else
-    echo "❌ iOS build failed!"
-    exit 1
+echo "🧪 Running tests with coverage..."
+flutter test --coverage
+
+if [[ "$(uname)" == "Darwin" ]]; then
+  echo ""
+  echo "🏗️  Testing iOS build..."
+  flutter build ios --no-codesign
+  echo "✅ iOS build successful!"
 fi
 
 echo ""
 echo "🏗️  Testing Android build..."
 flutter build apk
-if [ $? -eq 0 ]; then
-    echo "✅ Android build successful!"
-else
-    echo "❌ Android build failed!"
-    exit 1
-fi
+echo "✅ Android build successful!"
 
 echo ""
 echo "🎉 All builds completed successfully!"
