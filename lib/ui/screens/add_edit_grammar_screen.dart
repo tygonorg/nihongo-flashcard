@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/grammar.dart';
-import 'package:markdown_editor_plus/markdown_editor_plus.dart';
+import '../widgets/simple_markdown_editor.dart';
 
 class AddEditGrammarScreen extends StatefulWidget {
   const AddEditGrammarScreen({super.key});
@@ -29,52 +29,35 @@ class _AddEditGrammarScreenState extends State<AddEditGrammarScreen> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Tiêu đề'),
               onSaved: (v) => _title = v!.trim(),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Nhập tiêu đề' : null,
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Nhập tiêu đề' : null,
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Nghĩa'),
               onSaved: (v) => _meaning = v!.trim(),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Nhập nghĩa' : null,
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Nhập nghĩa' : null,
             ),
             DropdownButtonFormField(
               decoration: const InputDecoration(labelText: 'Cấp độ'),
               value: _level,
-              items: const ['N5','N4','N3','N2','N1']
+              items: const ['N5', 'N4', 'N3', 'N2', 'N1']
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                   .toList(),
               onChanged: (v) => setState(() => _level = v as String),
             ),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Ví dụ'),
-              onSaved: (v) => _example = (v?.trim().isEmpty ?? true) ? null : v!.trim(),
+              onSaved: (v) =>
+                  _example = (v?.trim().isEmpty ?? true) ? null : v!.trim(),
             ),
-            FormField<String>(
-              validator: (_) =>
-                  _content.trim().isEmpty ? 'Nhập nội dung' : null,
-              builder: (state) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  MarkdownTextInput(
-                    (String value) {
-                      _content = value;
-                      state.didChange(value);
-                    },
-                    _content,
-                    label: 'Nội dung',
-                    maxLines: 10,
-                    actions: MarkdownType.values,
-                  ),
-                  if (state.hasError)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Text(
-                        state.errorText!,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.error),
-                      ),
-                    ),
-                ],
-              ),
+            SimpleMarkdownEditor(
+              labelText: 'Nội dung',
+              maxLines: 10,
+              initialValue: _content,
+              onChanged: (value) => _content = value,
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Nhập nội dung' : null,
             ),
             const SizedBox(height: 20),
             FilledButton.icon(
