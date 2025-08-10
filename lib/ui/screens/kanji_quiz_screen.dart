@@ -1,16 +1,20 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/providers.dart';
+import 'package:get/get.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
+import '../../controllers/level_controller.dart';
 import '../../models/kanji.dart';
 
-class KanjiQuizScreen extends ConsumerStatefulWidget {
+class KanjiQuizScreen extends StatefulWidget {
   const KanjiQuizScreen({super.key});
   @override
-  ConsumerState<KanjiQuizScreen> createState() => _State();
+  State<KanjiQuizScreen> createState() => _State();
 }
 
-class _State extends ConsumerState<KanjiQuizScreen> {
+class _State extends State<KanjiQuizScreen> {
+  final DatabaseService db = locator<DatabaseService>();
+  final LevelController levelCtrl = Get.find();
   late List<Kanji> pool;
   int qIndex = 0;
   int correct = 0;
@@ -23,10 +27,10 @@ class _State extends ConsumerState<KanjiQuizScreen> {
     Future.microtask(_newQuiz);
   }
 
-  void _newQuiz() async {
-    final db = ref.read(databaseServiceProvider);
-    final result = await db.getAllKanjis(level: ref.read(selectedLevelProvider));
-    pool = result;
+    void _newQuiz() async {
+      final result =
+          await db.getAllKanjis(level: levelCtrl.selectedLevel.value);
+      pool = result;
     qIndex = 0;
     correct = 0;
     _nextQ();

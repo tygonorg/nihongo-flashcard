@@ -1,16 +1,22 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/providers.dart';
+import 'package:get/get.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
+import '../../services/kanji_srs_service.dart';
+import '../../controllers/level_controller.dart';
 import '../../models/kanji.dart';
 
-class KanjiFlashcardsScreen extends ConsumerStatefulWidget {
+class KanjiFlashcardsScreen extends StatefulWidget {
   const KanjiFlashcardsScreen({super.key});
   @override
-  ConsumerState<KanjiFlashcardsScreen> createState() => _State();
+  State<KanjiFlashcardsScreen> createState() => _State();
 }
 
-class _State extends ConsumerState<KanjiFlashcardsScreen> {
+class _State extends State<KanjiFlashcardsScreen> {
+  final DatabaseService db = locator<DatabaseService>();
+  final KanjiSrsService srs = locator<KanjiSrsService>();
+  final LevelController levelCtrl = Get.find();
   List<Kanji> deck = [];
   int index = 0;
   bool reveal = false;
@@ -22,9 +28,8 @@ class _State extends ConsumerState<KanjiFlashcardsScreen> {
   }
 
   void _loadDeck() async {
-    final db = ref.read(databaseServiceProvider);
     final kanjis = await db.getDueKanjis(
-        limit: 50, level: ref.read(selectedLevelProvider));
+        limit: 50, level: levelCtrl.selectedLevel.value);
     deck = kanjis;
     deck.shuffle(Random());
     setState(() {
@@ -34,7 +39,6 @@ class _State extends ConsumerState<KanjiFlashcardsScreen> {
   }
 
   void _grade(int g) async {
-    final srs = ref.read(kanjiSrsProvider);
     await srs.review(deck[index], g);
     if (index < deck.length - 1) {
       setState(() {

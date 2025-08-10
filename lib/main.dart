@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/foundation.dart';
-import 'services/database_service.dart';
 import 'services/migration_service.dart';
+import 'locator.dart';
+import 'services/database_service.dart';
 import 'app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  final databaseService = DatabaseService.instance;
+  setupLocator();
+
+  final databaseService = locator<DatabaseService>();
   
   try {
     // Check if migration is needed and perform it
@@ -33,11 +34,9 @@ void main() async {
     // Initialize the database service
     await databaseService.initialize();
     
-    runApp(
-      const ProviderScope(
-        child: NihongoApp(),
-      ),
-    );
+      runApp(
+        const NihongoApp(),
+      );
   } catch (e, stackTrace) {
     if (kDebugMode) {
       print('Critical error during app initialization: $e');
@@ -72,13 +71,11 @@ void main() async {
                 ElevatedButton(
                   onPressed: () async {
                     try {
-                      await databaseService.initialize();
-                      // Restart app nếu khởi tạo thành công
-                      runApp(
-                        const ProviderScope(
-                          child: NihongoApp(),
-                        ),
-                      );
+                        await databaseService.initialize();
+                        // Restart app nếu khởi tạo thành công
+                        runApp(
+                          const NihongoApp(),
+                        );
                     } catch (retryError) {
                       // Vẫn lỗi, giữ nguyên màn hình lỗi
                       if (kDebugMode) {

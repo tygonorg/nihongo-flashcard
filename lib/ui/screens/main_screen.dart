@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'home_screen.dart';
 import 'vocab_list_screen.dart';
 import 'grammar_list_screen.dart';
 import 'kanji_list_screen.dart';
 import 'settings_screen.dart';
 
-class MainScreen extends ConsumerStatefulWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  ConsumerState<MainScreen> createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends ConsumerState<MainScreen> {
+class _MainScreenState extends State<MainScreen> {
   int _index = 0;
 
-  static const _screens = [
+  static final _screens = [
     HomeScreen(),
     VocabListScreen(),
-    GrammarListScreen(),
+    const GrammarListScreen(),
     KanjiListScreen(),
     SettingsScreen(),
   ];

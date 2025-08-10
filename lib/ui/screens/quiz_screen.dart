@@ -1,16 +1,20 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/providers.dart';
+import 'package:get/get.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
+import '../../controllers/level_controller.dart';
 import '../../models/vocab.dart';
 
-class QuizScreen extends ConsumerStatefulWidget {
+class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
   @override
-  ConsumerState<QuizScreen> createState() => _State();
+  State<QuizScreen> createState() => _State();
 }
 
-class _State extends ConsumerState<QuizScreen> {
+class _State extends State<QuizScreen> {
+  final DatabaseService db = locator<DatabaseService>();
+  final LevelController levelCtrl = Get.find();
   late List<Vocab> pool;
   int qIndex = 0;
   int correct = 0;
@@ -24,8 +28,8 @@ class _State extends ConsumerState<QuizScreen> {
   }
 
   void _newQuiz() async {
-    final db = ref.read(databaseServiceProvider);
-    final result = await db.getAllVocabs(level: ref.read(selectedLevelProvider));
+    final result =
+        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
     pool = result;
     qIndex = 0;
     correct = 0;

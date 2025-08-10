@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/kanji.dart';
-import '../../providers/providers.dart';
+import '../../locator.dart';
+import '../../services/database_service.dart';
 
-class AddEditKanjiScreen extends ConsumerStatefulWidget {
+class AddEditKanjiScreen extends StatefulWidget {
   final Kanji? kanji;
   const AddEditKanjiScreen({super.key, this.kanji});
 
   @override
-  ConsumerState<AddEditKanjiScreen> createState() => _State();
+  State<AddEditKanjiScreen> createState() => _State();
 }
 
-class _State extends ConsumerState<AddEditKanjiScreen> {
+class _State extends State<AddEditKanjiScreen> {
   final _formKey = GlobalKey<FormState>();
   String _character = '';
   String _onyomi = '';
@@ -19,6 +19,7 @@ class _State extends ConsumerState<AddEditKanjiScreen> {
   String _meaning = '';
   String _hanviet = '';
   String _level = 'N5';
+  final DatabaseService db = locator<DatabaseService>();
 
   @override
   void initState() {
@@ -34,10 +35,9 @@ class _State extends ConsumerState<AddEditKanjiScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final db = ref.watch(databaseServiceProvider);
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.kanji == null ? 'Thêm kanji' : 'Sửa kanji')),
+    Widget build(BuildContext context) {
+      return Scaffold(
+        appBar: AppBar(title: Text(widget.kanji == null ? 'Thêm kanji' : 'Sửa kanji')),
       body: Form(
         key: _formKey,
         child: ListView(

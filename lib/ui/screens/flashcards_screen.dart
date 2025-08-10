@@ -1,16 +1,23 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/providers.dart';
+import 'package:get/get.dart';
+import '../../locator.dart';
 import '../../models/vocab.dart';
+import '../../services/database_service.dart';
+import '../../services/srs_service.dart';
+import '../../controllers/level_controller.dart';
 
-class FlashcardsScreen extends ConsumerStatefulWidget {
+class FlashcardsScreen extends StatefulWidget {
   const FlashcardsScreen({super.key});
   @override
-  ConsumerState<FlashcardsScreen> createState() => _State();
+  State<FlashcardsScreen> createState() => _State();
 }
 
-class _State extends ConsumerState<FlashcardsScreen> {
+class _State extends State<FlashcardsScreen> {
+  final DatabaseService db = locator<DatabaseService>();
+  final SrsService srs = locator<SrsService>();
+  final LevelController levelCtrl = Get.find();
+
   List<Vocab> deck = [];
   int index = 0;
   bool reveal = false;
@@ -22,8 +29,8 @@ class _State extends ConsumerState<FlashcardsScreen> {
   }
 
   void _loadDeck() async {
-    final db = ref.read(databaseServiceProvider);
-    final vocabs = await db.getDueVocabs(limit: 50, level: ref.read(selectedLevelProvider));
+    final vocabs = await db.getDueVocabs(
+        limit: 50, level: levelCtrl.selectedLevel.value);
     deck = vocabs;
     deck.shuffle(Random());
     setState(() {
@@ -33,7 +40,6 @@ class _State extends ConsumerState<FlashcardsScreen> {
   }
 
   void _grade(int g) async {
-    final srs = ref.read(srsProvider);
     await srs.review(deck[index], g);
     if (index < deck.length - 1) {
       setState(() {
@@ -52,9 +58,9 @@ class _State extends ConsumerState<FlashcardsScreen> {
   Widget build(BuildContext context) {
     if (deck.isEmpty) {
       return Scaffold(
-          appBar: AppBar(title: const Text('Flashcards')),
-          body: const Center(
-              child: Text('Không có thẻ đến hạn. Hãy thêm từ hoặc đổi cấp.')));
+            appBar: AppBar(title: const Text('Flashcards')),
+            body: const Center(
+                child: Text('Không có thẻ đến hạn. Hãy thêm từ hoặc đổi cấp.')));
     }
 
     final v = deck[index];
