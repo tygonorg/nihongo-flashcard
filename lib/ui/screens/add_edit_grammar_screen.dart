@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/grammar.dart';
-import 'package:markdown_text_input/markdown_text_input.dart';
+import 'package:markdown_editor_plus/markdown_editor_plus.dart';
 
 class AddEditGrammarScreen extends StatefulWidget {
   const AddEditGrammarScreen({super.key});
