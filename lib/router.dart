@@ -32,5 +32,5 @@ final router = GoRouter(routes: [
   GoRoute(path: '/kanji-flash', builder: (_, __) => const KanjiFlashcardsScreen()),
   GoRoute(path: '/kanji-quiz', builder: (_, __) => const KanjiQuizScreen()),
   GoRoute(path: '/grammar-quiz', builder: (_, __) => const GrammarQuizScreen()),
-  GoRoute(path: '/stats', builder: (_, __) => const StatsScreen()),
+  GoRoute(path: '/stats', builder: (_, __) => StatsScreen()),
 ]);
