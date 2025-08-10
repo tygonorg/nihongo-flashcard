@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import '../../models/grammar.dart';
+import 'package:go_router/go_router.dart';
 
 class GrammarListScreen extends StatefulWidget {
   const GrammarListScreen({super.key});
@@ -106,6 +107,7 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
                   ),
               ],
             ),
+            onTap: () => context.push('/grammar-detail', extra: g),
           );
         },
       ),
