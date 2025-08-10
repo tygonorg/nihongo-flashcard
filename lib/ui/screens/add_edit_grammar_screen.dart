@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/grammar.dart';
+import 'package:markdown_text_input/markdown_text_input.dart';
 
 class AddEditGrammarScreen extends StatefulWidget {
   const AddEditGrammarScreen({super.key});
@@ -47,12 +48,33 @@ class _AddEditGrammarScreenState extends State<AddEditGrammarScreen> {
               decoration: const InputDecoration(labelText: 'Ví dụ'),
               onSaved: (v) => _example = (v?.trim().isEmpty ?? true) ? null : v!.trim(),
             ),
-            TextFormField(
-              decoration:
-                  const InputDecoration(labelText: 'Nội dung (Markdown)'),
-              maxLines: 10,
-              onSaved: (v) => _content = v!.trim(),
-              validator: (v) => (v == null || v.trim().isEmpty) ? 'Nhập nội dung' : null,
+            FormField<String>(
+              validator: (_) =>
+                  _content.trim().isEmpty ? 'Nhập nội dung' : null,
+              builder: (state) => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MarkdownTextInput(
+                    (String value) {
+                      _content = value;
+                      state.didChange(value);
+                    },
+                    _content,
+                    label: 'Nội dung',
+                    maxLines: 10,
+                    actions: MarkdownType.values,
+                  ),
+                  if (state.hasError)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(
+                        state.errorText!,
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.error),
+                      ),
+                    ),
+                ],
+              ),
             ),
             const SizedBox(height: 20),
             FilledButton.icon(
