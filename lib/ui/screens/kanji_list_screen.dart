@@ -95,6 +95,7 @@ class KanjiListScreen extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'kanjiListFab',
         onPressed: () => context.push('/kanji-add'),
         child: const Icon(Icons.add),
       ),

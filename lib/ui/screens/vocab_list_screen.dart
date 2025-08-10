@@ -98,6 +98,7 @@ class VocabListScreen extends StatelessWidget {
         );
       }),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'vocabListFab',
         onPressed: () => context.push('/add'),
         child: const Icon(Icons.add),
       ),
