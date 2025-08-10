@@ -2,6 +2,8 @@
 
 Ứng dụng Flutter quản lý từ vựng, ngữ pháp tiếng Nhật với hệ thống SRS (Spaced Repetition System) và flashcards.
 
+Tài liệu hướng dẫn chi tiết có trong [Wiki](wiki/Home.md).
+
 ## ✨ Tính năng
 
 - 📚 Quản lý từ vựng theo cấp độ JLPT (N5-N1)
