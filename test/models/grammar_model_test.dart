@@ -8,6 +8,7 @@ void main() {
         title: 'は',
         meaning: 'trợ từ chỉ chủ đề',
         level: 'N5',
+        content: 'content',
       );
 
       expect(grammar.title, 'は');
@@ -22,6 +23,7 @@ void main() {
         meaning: 'trợ từ chỉ chủ thể',
         level: 'N5',
         example: '猫が好きです。',
+        content: 'content',
       );
 
       expect(grammar.example, '猫が好きです。');
@@ -32,6 +34,7 @@ void main() {
         title: 'は',
         meaning: 'trợ từ chỉ chủ đề',
         level: 'N5',
+        content: 'content',
       );
 
       final map = grammar.toMap();
@@ -40,6 +43,7 @@ void main() {
       expect(map['meaning'], 'trợ từ chỉ chủ đề');
       expect(map['level'], 'N5');
       expect(map.containsKey('example'), isFalse);
+      expect(map['content'], 'content');
     });
 
     test('fromMap creates valid Grammar', () {
@@ -48,6 +52,7 @@ void main() {
         'meaning': 'trợ từ chỉ chủ thể',
         'level': 'N5',
         'example': '猫が好きです。',
+        'content': 'content',
       };
 
       final grammar = Grammar.fromMap(map);
@@ -56,6 +61,7 @@ void main() {
       expect(grammar.meaning, 'trợ từ chỉ chủ thể');
       expect(grammar.level, 'N5');
       expect(grammar.example, '猫が好きです。');
+      expect(grammar.content, 'content');
     });
   });
 }

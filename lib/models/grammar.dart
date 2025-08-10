@@ -3,12 +3,14 @@ class Grammar {
   final String meaning;
   final String level;
   final String? example;
+  final String content;
 
   Grammar({
     required this.title,
     required this.meaning,
     required this.level,
     this.example,
+    this.content = '',
   });
 
   factory Grammar.fromMap(Map<String, dynamic> map) {
@@ -17,6 +19,7 @@ class Grammar {
       meaning: map['meaning'] as String,
       level: map['level'] as String,
       example: map['example'] as String?,
+      content: map['content'] as String? ?? '',
     );
   }
 
@@ -26,6 +29,7 @@ class Grammar {
       'meaning': meaning,
       'level': level,
       if (example != null) 'example': example,
+      'content': content,
     };
   }
 }
