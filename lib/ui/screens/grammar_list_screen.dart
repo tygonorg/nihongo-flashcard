@@ -111,6 +111,17 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          final newGrammar = await context.push<Grammar>('/grammar-add');
+          if (newGrammar != null) {
+            setState(() {
+              (_grammars ??= []).add(newGrammar);
+            });
+          }
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

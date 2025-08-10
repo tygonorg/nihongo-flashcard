@@ -1,4 +1,4 @@
 [
-  {"title":"べきだ","meaning":"nên","level":"N4","example":"もっと勉強すべきだ。"},
-  {"title":"ために","meaning":"để","level":"N4","example":"日本語を学ぶために日本へ行く。"}
+  {"title":"べきだ","meaning":"nên","level":"N4","example":"もっと勉強すべきだ。","content":"# べきだ\nNên làm điều gì đó.\n\n**Ví dụ:** もっと勉強すべきだ。"},
+  {"title":"ために","meaning":"để","level":"N4","example":"日本語を学ぶために日本へ行く。","content":"# ために\nĐể làm gì đó.\n\n**Ví dụ:** 日本語を学ぶために日本へ行く。"}
 ]

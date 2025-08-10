@@ -11,6 +11,7 @@ import 'ui/screens/kanji_quiz_screen.dart';
 import 'ui/screens/add_edit_kanji_screen.dart';
 import 'ui/screens/grammar_quiz_screen.dart';
 import 'ui/screens/grammar_detail_screen.dart';
+import 'ui/screens/add_edit_grammar_screen.dart';
 import 'ui/screens/stats_screen.dart';
 
 final router = GoRouter(routes: [
@@ -34,6 +35,7 @@ final router = GoRouter(routes: [
   GoRoute(path: '/kanji-flash', builder: (_, __) => const KanjiFlashcardsScreen()),
   GoRoute(path: '/kanji-quiz', builder: (_, __) => const KanjiQuizScreen()),
   GoRoute(path: '/grammar-quiz', builder: (_, __) => const GrammarQuizScreen()),
+  GoRoute(path: '/grammar-add', builder: (_, __) => const AddEditGrammarScreen()),
   GoRoute(
     path: '/grammar-detail',
     builder: (context, state) {
