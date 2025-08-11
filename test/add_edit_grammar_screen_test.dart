@@ -38,4 +38,21 @@ void main() {
     expect(result!.example, '本を読んでいる');
     expect(result!.content, 'content');
   });
+
+  testWidgets('AddEditGrammarScreen prefills data when editing', (tester) async {
+    final grammar = Grammar(
+      title: 'は',
+      meaning: 'chủ đề',
+      level: 'N5',
+      example: '猫はかわいい',
+      content: 'content',
+    );
+
+    await tester
+        .pumpWidget(MaterialApp(home: AddEditGrammarScreen(grammar: grammar)));
+
+    expect(find.text('は'), findsOneWidget);
+    expect(find.text('chủ đề'), findsOneWidget);
+    expect(find.text('猫はかわいい'), findsOneWidget);
+  });
 }

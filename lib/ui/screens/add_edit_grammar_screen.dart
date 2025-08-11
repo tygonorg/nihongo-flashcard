@@ -3,7 +3,8 @@ import '../../models/grammar.dart';
 import '../widgets/simple_markdown_editor.dart';
 
 class AddEditGrammarScreen extends StatefulWidget {
-  const AddEditGrammarScreen({super.key});
+  final Grammar? grammar;
+  const AddEditGrammarScreen({super.key, this.grammar});
 
   @override
   State<AddEditGrammarScreen> createState() => _AddEditGrammarScreenState();
@@ -18,21 +19,37 @@ class _AddEditGrammarScreenState extends State<AddEditGrammarScreen> {
   String _content = '';
 
   @override
+  void initState() {
+    super.initState();
+    final g = widget.grammar;
+    if (g != null) {
+      _title = g.title;
+      _meaning = g.meaning;
+      _level = g.level;
+      _example = g.example;
+      _content = g.content;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Thêm ngữ pháp')),
+      appBar:
+          AppBar(title: Text(widget.grammar == null ? 'Thêm ngữ pháp' : 'Sửa ngữ pháp')),
       body: Form(
         key: _formKey,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
             TextFormField(
+              initialValue: _title,
               decoration: const InputDecoration(labelText: 'Tiêu đề'),
               onSaved: (v) => _title = v!.trim(),
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? 'Nhập tiêu đề' : null,
             ),
             TextFormField(
+              initialValue: _meaning,
               decoration: const InputDecoration(labelText: 'Nghĩa'),
               onSaved: (v) => _meaning = v!.trim(),
               validator: (v) =>
@@ -47,6 +64,7 @@ class _AddEditGrammarScreenState extends State<AddEditGrammarScreen> {
               onChanged: (v) => setState(() => _level = v as String),
             ),
             TextFormField(
+              initialValue: _example,
               decoration: const InputDecoration(labelText: 'Ví dụ'),
               onSaved: (v) =>
                   _example = (v?.trim().isEmpty ?? true) ? null : v!.trim(),

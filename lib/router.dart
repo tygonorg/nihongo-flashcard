@@ -41,7 +41,13 @@ final router = GoRouter(routes: [
   GoRoute(path: '/kanji-flash', builder: (_, __) => const KanjiFlashcardsScreen()),
   GoRoute(path: '/kanji-quiz', builder: (_, __) => const KanjiQuizScreen()),
   GoRoute(path: '/grammar-quiz', builder: (_, __) => const GrammarQuizScreen()),
-  GoRoute(path: '/grammar-add', builder: (_, __) => const AddEditGrammarScreen()),
+  GoRoute(
+    path: '/grammar-add',
+    builder: (context, state) {
+      final grammar = state.extra as Grammar?;
+      return AddEditGrammarScreen(grammar: grammar);
+    },
+  ),
   GoRoute(
     path: '/grammar-detail',
     builder: (context, state) {
