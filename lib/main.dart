@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'services/migration_service.dart';
 import 'locator.dart';
 import 'services/database_service.dart';
+import 'services/preset_loader.dart';
 import 'app.dart';
 
 void main() async {
@@ -30,10 +31,21 @@ void main() async {
         // Continue anyway, as the app might still work
       }
     }
-    
+
     // Initialize the database service
     await databaseService.initialize();
-    
+
+    // Import preset vocabularies on first launch
+    final existing = await databaseService.getAllVocabs();
+    if (existing.isEmpty) {
+      final loader = PresetLoader(databaseService);
+      await loader.importJsonAsset('assets/presets/n5.json');
+      await loader.importJsonAsset('assets/presets/n4.json');
+      await loader.importJsonAsset('assets/presets/n3.json');
+      await loader.importJsonAsset('assets/presets/n2.json');
+      await loader.importJsonAsset('assets/presets/n1.json');
+    }
+
       runApp(
         const NihongoApp(),
       );

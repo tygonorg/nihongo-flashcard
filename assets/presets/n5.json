@@ -1,5 +1,22 @@
 [
-  {"term":"猫","meaning":"con mèo","level":"N5","note":"neko"},
-  {"term":"犬","meaning":"con chó","level":"N5","note":"inu"},
-  {"term":"水","meaning":"nước","level":"N5"}
+  {"term": "学校", "meaning": "trường học", "level": "N5"},
+  {"term": "先生", "meaning": "giáo viên", "level": "N5"},
+  {"term": "学生", "meaning": "học sinh", "level": "N5"},
+  {"term": "猫", "meaning": "mèo", "level": "N5"},
+  {"term": "犬", "meaning": "chó", "level": "N5"},
+  {"term": "水", "meaning": "nước", "level": "N5"},
+  {"term": "火", "meaning": "lửa", "level": "N5"},
+  {"term": "木", "meaning": "cây", "level": "N5"},
+  {"term": "金", "meaning": "vàng", "level": "N5"},
+  {"term": "土", "meaning": "đất", "level": "N5"},
+  {"term": "日", "meaning": "ngày", "level": "N5"},
+  {"term": "月", "meaning": "tháng", "level": "N5"},
+  {"term": "車", "meaning": "xe hơi", "level": "N5"},
+  {"term": "電車", "meaning": "tàu điện", "level": "N5"},
+  {"term": "本", "meaning": "sách", "level": "N5"},
+  {"term": "食べる", "meaning": "ăn", "level": "N5"},
+  {"term": "飲む", "meaning": "uống", "level": "N5"},
+  {"term": "行く", "meaning": "đi", "level": "N5"},
+  {"term": "来る", "meaning": "đến", "level": "N5"},
+  {"term": "見る", "meaning": "nhìn", "level": "N5"}
 ]
