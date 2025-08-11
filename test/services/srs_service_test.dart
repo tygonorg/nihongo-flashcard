@@ -483,10 +483,9 @@ void main() {
         expect(srsService.daysUntilDue(vocab), equals(0));
       });
 
-      test('should handle very old and future dates', () {
-        final now = DateTime.now();
-        final veryOldDate = DateTime(1900, 1, 1);
-        final veryFutureDate = DateTime(2100, 12, 31);
+        test('should handle very old and future dates', () {
+          final veryOldDate = DateTime(1900, 1, 1);
+          final veryFutureDate = DateTime(2100, 12, 31);
         
         final oldVocab = _createTestVocab(dueAt: veryOldDate);
         final futureVocab = _createTestVocab(dueAt: veryFutureDate);

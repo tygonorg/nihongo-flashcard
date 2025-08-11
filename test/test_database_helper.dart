@@ -1,11 +1,9 @@
 import 'dart:io';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:flutter/foundation.dart';
 import 'package:nihongo_flashcard/models/vocab.dart';
 import 'package:nihongo_flashcard/models/review_log.dart';
 
 class TestDatabaseHelper {
-  static Database? _database;
 
   /// Initialize sqflite_common_ffi for testing
   static void initializeFfiDb() {

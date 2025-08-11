@@ -161,14 +161,14 @@ void main() {
     });
 
     group('Favorites Tests', () {
-      test('Favorite operations', () async {
-        // Create some vocabs
-        final vocab1 = await TestDatabaseService.addVocab(
-          term: '好き', meaning: 'thích', level: 'N5', favorite: true);
-        final vocab2 = await TestDatabaseService.addVocab(
-          term: '嫌い', meaning: 'ghét', level: 'N5', favorite: false);
-        final vocab3 = await TestDatabaseService.addVocab(
-          term: '愛', meaning: 'yêu', level: 'N3', favorite: true);
+        test('Favorite operations', () async {
+          // Create some vocabs
+          await TestDatabaseService.addVocab(
+            term: '好き', meaning: 'thích', level: 'N5', favorite: true);
+          final vocab2 = await TestDatabaseService.addVocab(
+            term: '嫌い', meaning: 'ghét', level: 'N5', favorite: false);
+          await TestDatabaseService.addVocab(
+            term: '愛', meaning: 'yêu', level: 'N3', favorite: true);
 
         // Test favorite retrieval
         final favorites = await TestDatabaseService.getFavoriteVocabs();
@@ -248,9 +248,6 @@ void main() {
 
         // Test search performance on larger dataset
         final searchResults = await TestDatabaseService.searchVocabs('c');
-        // Debug: Let's see what we get
-        final searchTerms = searchResults.map((v) => '${v.term}:${v.meaning}').join(', ');
-        print('Search results for "c": $searchTerms');
         // Search for 'c' will match: chó, chim, cá, cây (4 results)
         expect(searchResults.length, 4);
 
