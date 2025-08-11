@@ -8,6 +8,7 @@ Tài liệu hướng dẫn chi tiết có trong [Wiki](wiki/Home.md).
 
 - 📚 Quản lý từ vựng theo cấp độ JLPT (N5-N1)
 - 📖 Thư viện ngữ pháp JLPT với ví dụ
+- ✏️ Sửa ngữ pháp cơ bản cho câu nhập vào
 - 🔄 Hệ thống ôn tập theo khoảng cách (SRS)
 - 📱 Flashcards tương tác
 - 🎯 Quiz và kiểm tra (từ vựng & ngữ pháp)
