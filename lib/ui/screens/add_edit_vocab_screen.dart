@@ -99,7 +99,7 @@ class _State extends State<AddEditVocabScreen> {
                             note: _note);
                       }
 
-                      if (mounted) {
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(widget.vocab == null
@@ -109,9 +109,8 @@ class _State extends State<AddEditVocabScreen> {
                           ),
                         );
                         Navigator.pop(context);
-                      }
-                    } catch (e) {
-                      if (mounted) {
+                      } catch (e) {
+                        if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Lỗi: ${e.toString()}'),
@@ -120,7 +119,6 @@ class _State extends State<AddEditVocabScreen> {
                         );
                       }
                     }
-                  }
                 },
               )
             ],
