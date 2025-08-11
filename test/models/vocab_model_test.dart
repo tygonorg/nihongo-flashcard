@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/vocab.dart';
+import 'package:nihongo_flashcard/models/vocab.dart';
 
 void main() {
   group('Vocab Model Tests', () {

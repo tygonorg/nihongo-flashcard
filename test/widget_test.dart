@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
 
-import '../lib/app.dart';
+import 'package:nihongo_flashcard/app.dart';
 import 'test_database_helper.dart';
 
 void main() {
