@@ -11,7 +11,9 @@ Tài liệu hướng dẫn chi tiết có trong [Wiki](wiki/Home.md).
 - 🔄 Hệ thống ôn tập theo khoảng cách (SRS)
 - 📱 Flashcards tương tác
 - 🎯 Quiz và kiểm tra (từ vựng & ngữ pháp)
-- 📊 Thống kê học tập
+- 🧠 Trắc nghiệm đa dạng: 4 lựa chọn, đúng/sai, điền khuyết, matching
+- 📊 Thống kê học tập với biểu đồ tiến độ và streak
+- ☁️ Sao lưu/khôi phục dữ liệu
 
 ## 🛠️ Yêu cầu hệ thống
 
@@ -233,6 +235,5 @@ flutter run
 - Bạn có thể đổi màu chủ đạo bằng `colorSchemeSeed` trong `theme.dart`
 
 ## Roadmap
-- Nhiều dạng trắc nghiệm hơn: điền khuyết, đúng/sai, matching
-- Biểu đồ tiến độ, streak
-- Backup/Restore, cloud sync
+- Đồng bộ cloud nâng cao
+- Trắc nghiệm nghe và phát âm

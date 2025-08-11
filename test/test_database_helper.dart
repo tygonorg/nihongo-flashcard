@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:nihongo_flashcard/models/vocab.dart';
 import 'package:nihongo_flashcard/models/review_log.dart';
@@ -381,4 +382,95 @@ class TestDatabaseService {
     await db.delete('review_logs');
     await db.delete('vocabs');
   }
+
+  static Future<Map<String, dynamic>> exportData() async {
+    final vocabs = await getAllVocabs();
+    final logs = await database.then(
+        (db) => db.query('review_logs'));
+    return {
+      'vocabs': vocabs.map((v) => v.toMap()).toList(),
+      'review_logs': logs,
+    };
+  }
+
+  static Future<void> importData(Map<String, dynamic> data) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn.delete('review_logs');
+      await txn.delete('vocabs');
+      if (data['vocabs'] != null) {
+        for (final v in data['vocabs']) {
+          await txn.insert('vocabs', Map<String, Object?>.from(v));
+        }
+      }
+      if (data['review_logs'] != null) {
+        for (final r in data['review_logs']) {
+          await txn.insert('review_logs', Map<String, Object?>.from(r));
+        }
+      }
+    });
+  }
+
+  static Future<File> backupToFile(String path) async {
+    final data = await exportData();
+    final file = File(path);
+    return file.writeAsString(jsonEncode(data));
+  }
+
+  static Future<void> restoreFromFile(String path) async {
+    final file = File(path);
+    final content = await file.readAsString();
+    final Map<String, dynamic> data = jsonDecode(content);
+    await importData(data);
+  }
+
+  static Future<Map<String, int>> getDailyReviewCounts({int days = 7}) async {
+    final db = await database;
+    final now = DateTime.now();
+    final startDay = DateTime(now.year, now.month, now.day)
+        .subtract(Duration(days: days - 1));
+    final startMillis = startDay.millisecondsSinceEpoch;
+    final endMillis =
+        DateTime(now.year, now.month, now.day, 23, 59, 59, 999).millisecondsSinceEpoch;
+    final rows = await db.rawQuery(
+        'SELECT reviewedAt FROM review_logs WHERE reviewedAt BETWEEN ? AND ?',
+        [startMillis, endMillis]);
+
+    final Map<String, int> counts = {};
+    for (final row in rows) {
+      final date =
+          DateTime.fromMillisecondsSinceEpoch(row['reviewedAt'] as int);
+      final key = _dateKey(date);
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    for (int i = 0; i < days; i++) {
+      final d = startDay.add(Duration(days: i));
+      counts.putIfAbsent(_dateKey(d), () => 0);
+    }
+    return counts;
+  }
+
+  static Future<int> getReviewStreak() async {
+    final db = await database;
+    final rows = await db
+        .rawQuery('SELECT reviewedAt FROM review_logs ORDER BY reviewedAt DESC');
+    final Set<String> days = rows
+        .map((e) => _dateKey(
+            DateTime.fromMillisecondsSinceEpoch(e['reviewedAt'] as int)))
+        .toSet();
+    int streak = 0;
+    DateTime day = DateTime.now();
+    while (true) {
+      final key = _dateKey(day);
+      if (days.contains(key)) {
+        streak++;
+        day = day.subtract(const Duration(days: 1));
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  static String _dateKey(DateTime d) => '${d.year}-${d.month}-${d.day}';
 }

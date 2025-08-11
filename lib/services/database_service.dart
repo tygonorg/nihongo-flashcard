@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -672,4 +674,81 @@ class DatabaseService {
       }
     });
   }
+
+  /// Backup database to a file path
+  Future<File> backupToFile(String path) async {
+    final data = await exportData();
+    final file = File(path);
+    return file.writeAsString(jsonEncode(data));
+  }
+
+  /// Restore database from a backup file
+  Future<void> restoreFromFile(String path) async {
+    final file = File(path);
+    if (!await file.exists()) {
+      throw Exception('Backup file not found');
+    }
+    final content = await file.readAsString();
+    final Map<String, dynamic> data = jsonDecode(content);
+    await importData(data);
+  }
+
+  /// Simulate cloud sync by writing backup to a fixed file
+  Future<void> syncToCloud() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final cloudPath = join(dir.path, 'cloud_backup.json');
+    await backupToFile(cloudPath);
+  }
+
+  /// Get review counts for recent days
+  Future<Map<String, int>> getDailyReviewCounts({int days = 7}) async {
+    final db = await database;
+    final now = DateTime.now();
+    final startDay = DateTime(now.year, now.month, now.day)
+        .subtract(Duration(days: days - 1));
+    final startMillis = startDay.millisecondsSinceEpoch;
+    final endMillis =
+        DateTime(now.year, now.month, now.day, 23, 59, 59, 999).millisecondsSinceEpoch;
+    final rows = await db.rawQuery(
+        'SELECT reviewedAt FROM review_logs WHERE reviewedAt BETWEEN ? AND ?',
+        [startMillis, endMillis]);
+
+    final Map<String, int> counts = {};
+    for (final row in rows) {
+      final date =
+          DateTime.fromMillisecondsSinceEpoch(row['reviewedAt'] as int);
+      final key = _dateKey(date);
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    for (int i = 0; i < days; i++) {
+      final d = startDay.add(Duration(days: i));
+      counts.putIfAbsent(_dateKey(d), () => 0);
+    }
+    return counts;
+  }
+
+  /// Calculate current review streak (consecutive days with reviews)
+  Future<int> getReviewStreak() async {
+    final db = await database;
+    final rows = await db
+        .rawQuery('SELECT reviewedAt FROM review_logs ORDER BY reviewedAt DESC');
+    final Set<String> daysWithReviews = rows
+        .map((e) => _dateKey(
+            DateTime.fromMillisecondsSinceEpoch(e['reviewedAt'] as int)))
+        .toSet();
+    int streak = 0;
+    DateTime day = DateTime.now();
+    while (true) {
+      final key = _dateKey(day);
+      if (daysWithReviews.contains(key)) {
+        streak++;
+        day = day.subtract(const Duration(days: 1));
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  String _dateKey(DateTime d) => '${d.year}-${d.month}-${d.day}';
 }
