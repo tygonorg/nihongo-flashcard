@@ -53,6 +53,26 @@ class HomeScreen extends StatelessWidget {
                 ListTile(title: Text(k.character), subtitle: Text(k.meaning)),
               const SizedBox(height: 16),
               FilledButton(
+                onPressed: () => context.push('/quiz'),
+                child: const Text('Trắc nghiệm 4 lựa chọn'),
+              ),
+              const SizedBox(height: 8),
+              FilledButton(
+                onPressed: () => context.push('/quiz-tf'),
+                child: const Text('Trắc nghiệm Đúng/Sai'),
+              ),
+              const SizedBox(height: 8),
+              FilledButton(
+                onPressed: () => context.push('/quiz-fill'),
+                child: const Text('Trắc nghiệm Điền khuyết'),
+              ),
+              const SizedBox(height: 8),
+              FilledButton(
+                onPressed: () => context.push('/quiz-match'),
+                child: const Text('Trắc nghiệm Matching'),
+              ),
+              const SizedBox(height: 16),
+              FilledButton(
                 onPressed: () => context.push('/stats'),
                 child: const Text('Xem thống kê chi tiết'),
               ),

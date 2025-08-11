@@ -6,6 +6,9 @@ import 'ui/screens/main_screen.dart';
 import 'ui/screens/add_edit_vocab_screen.dart';
 import 'ui/screens/flashcards_screen.dart';
 import 'ui/screens/quiz_screen.dart';
+import 'ui/screens/true_false_quiz_screen.dart';
+import 'ui/screens/fill_in_blank_quiz_screen.dart';
+import 'ui/screens/matching_quiz_screen.dart';
 import 'ui/screens/kanji_flashcards_screen.dart';
 import 'ui/screens/kanji_quiz_screen.dart';
 import 'ui/screens/add_edit_kanji_screen.dart';
@@ -25,6 +28,9 @@ final router = GoRouter(routes: [
   ),
   GoRoute(path: '/flash', builder: (_, __) => const FlashcardsScreen()),
   GoRoute(path: '/quiz', builder: (_, __) => const QuizScreen()),
+  GoRoute(path: '/quiz-tf', builder: (_, __) => const TrueFalseQuizScreen()),
+  GoRoute(path: '/quiz-fill', builder: (_, __) => const FillInBlankQuizScreen()),
+  GoRoute(path: '/quiz-match', builder: (_, __) => const MatchingQuizScreen()),
   GoRoute(
     path: '/kanji-add',
     builder: (context, state) {
