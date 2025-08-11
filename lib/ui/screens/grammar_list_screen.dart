@@ -108,6 +108,30 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
               ],
             ),
             onTap: () => context.push('/grammar-detail', extra: g),
+            onLongPress: () async {
+              final action = await showModalBottomSheet<String>(
+                context: context,
+                builder: (ctx) => SafeArea(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.edit),
+                        title: const Text('Sửa'),
+                        onTap: () => Navigator.pop(ctx, 'edit'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+              if (action == 'edit') {
+                final updated =
+                    await context.push<Grammar>('/grammar-add', extra: g);
+                if (updated != null) {
+                  setState(() => _grammars![index] = updated);
+                }
+              }
+            },
           );
         },
       ),
