@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/kanji.dart';
+import 'package:nihongo_flashcard/models/kanji.dart';
 
 void main() {
   group('Kanji Model Tests', () {

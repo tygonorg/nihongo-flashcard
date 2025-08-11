@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'dart:io';
-import '../lib/models/vocab.dart';
-import '../lib/models/review_log.dart';
+import 'package:nihongo_flashcard/models/review_log.dart';
+import 'package:nihongo_flashcard/models/vocab.dart';
 
 /// Unit test version of DatabaseService for testing CRUD operations
 class DatabaseServiceTest {

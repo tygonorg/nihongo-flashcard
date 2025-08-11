@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/grammar.dart';
+import 'package:nihongo_flashcard/models/grammar.dart';
 
 void main() {
   group('Grammar Model Tests', () {

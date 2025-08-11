@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../lib/ui/screens/grammar_detail_screen.dart';
-import '../lib/models/grammar.dart';
+import 'package:nihongo_flashcard/models/grammar.dart';
+import 'package:nihongo_flashcard/ui/screens/grammar_detail_screen.dart';
 
 void main() {
   testWidgets('GrammarDetailScreen shows markdown content and zoom icons',

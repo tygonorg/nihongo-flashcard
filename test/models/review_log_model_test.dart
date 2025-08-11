@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../lib/models/review_log.dart';
+import 'package:nihongo_flashcard/models/review_log.dart';
 
 void main() {
   group('ReviewLog Model Tests', () {
