@@ -24,6 +24,7 @@ class _State extends State<QuizScreen> {
   int correct = 0;
   List<Vocab> options = [];
   Vocab? current;
+  bool? answerCorrect;
 
   @override
   void initState() {
@@ -117,19 +118,29 @@ class _State extends State<QuizScreen> {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    final ok = o.id == current!.id;
-                    if (ok) correct++;
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content:
-                            Text(ok ? 'Đúng!' : 'Sai: ${current!.meaning}')));
-                    setState(() {
-                      qIndex++;
-                      _nextQ();
-                    });
-                  },
+                  onPressed: answerCorrect == null
+                      ? () {
+                          final ok = o.id == current!.id;
+                          if (ok) correct++;
+                          setState(() => answerCorrect = ok);
+                          Future.delayed(const Duration(seconds: 2), () {
+                            setState(() {
+                              qIndex++;
+                              answerCorrect = null;
+                              _nextQ();
+                            });
+                          });
+                        }
+                      : null,
                   child: Text(o.meaning),
                 ),
+              ),
+            const SizedBox(height: 24),
+            if (answerCorrect != null)
+              Icon(
+                answerCorrect! ? Icons.check_circle : Icons.close,
+                color: answerCorrect! ? Colors.green : Colors.red,
+                size: 64,
               ),
             const Spacer(),
             Text('Đúng: $correct', textAlign: TextAlign.center),
