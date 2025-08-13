@@ -130,6 +130,7 @@ tearDown(() async {
 ```dart
 final vocab = await TestDatabaseService.addVocab(
   term: '水',
+  hiragana: 'みず',
   meaning: 'nước',
   level: 'N5'
 );

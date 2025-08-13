@@ -80,8 +80,20 @@ class _State extends State<FlashcardsScreen> {
                   child: Center(
                     child: AnimatedCrossFade(
                       duration: const Duration(milliseconds: 200),
-                      firstChild: Text(v.term,
-                          style: Theme.of(context).textTheme.displayMedium),
+                      firstChild: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(v.term,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium),
+                          const SizedBox(height: 8),
+                          Text(v.hiragana,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall),
+                        ],
+                      ),
                       secondChild: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [

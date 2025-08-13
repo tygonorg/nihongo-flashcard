@@ -1,22 +1,122 @@
 [
-  {"term": "影響", "meaning": "ảnh hưởng", "level": "N3"},
-  {"term": "環境", "meaning": "môi trường", "level": "N3"},
-  {"term": "提供", "meaning": "cung cấp", "level": "N3"},
-  {"term": "可能性", "meaning": "khả năng", "level": "N3"},
-  {"term": "平均", "meaning": "trung bình", "level": "N3"},
-  {"term": "魅力", "meaning": "sức hấp dẫn", "level": "N3"},
-  {"term": "改善", "meaning": "cải thiện", "level": "N3"},
-  {"term": "判断", "meaning": "phán đoán", "level": "N3"},
-  {"term": "責任", "meaning": "trách nhiệm", "level": "N3"},
-  {"term": "費用", "meaning": "chi phí", "level": "N3"},
-  {"term": "状態", "meaning": "trạng thái", "level": "N3"},
-  {"term": "挑戦", "meaning": "thử thách", "level": "N3"},
-  {"term": "独立", "meaning": "độc lập", "level": "N3"},
-  {"term": "支援", "meaning": "hỗ trợ", "level": "N3"},
-  {"term": "状況", "meaning": "tình hình", "level": "N3"},
-  {"term": "拡大", "meaning": "mở rộng", "level": "N3"},
-  {"term": "詳細", "meaning": "chi tiết", "level": "N3"},
-  {"term": "必要性", "meaning": "sự cần thiết", "level": "N3"},
-  {"term": "対象", "meaning": "đối tượng", "level": "N3"},
-  {"term": "信頼", "meaning": "tin tưởng", "level": "N3"}
+  {
+    "term": "影響",
+    "meaning": "ảnh hưởng",
+    "level": "N3",
+    "hiragana": "えいきょう"
+  },
+  {
+    "term": "環境",
+    "meaning": "môi trường",
+    "level": "N3",
+    "hiragana": "かんきょう"
+  },
+  {
+    "term": "提供",
+    "meaning": "cung cấp",
+    "level": "N3",
+    "hiragana": "ていきょう"
+  },
+  {
+    "term": "可能性",
+    "meaning": "khả năng",
+    "level": "N3",
+    "hiragana": "かのうせい"
+  },
+  {
+    "term": "平均",
+    "meaning": "trung bình",
+    "level": "N3",
+    "hiragana": "へいきん"
+  },
+  {
+    "term": "魅力",
+    "meaning": "sức hấp dẫn",
+    "level": "N3",
+    "hiragana": "みりょく"
+  },
+  {
+    "term": "改善",
+    "meaning": "cải thiện",
+    "level": "N3",
+    "hiragana": "かいぜん"
+  },
+  {
+    "term": "判断",
+    "meaning": "phán đoán",
+    "level": "N3",
+    "hiragana": "はんだん"
+  },
+  {
+    "term": "責任",
+    "meaning": "trách nhiệm",
+    "level": "N3",
+    "hiragana": "せきにん"
+  },
+  {
+    "term": "費用",
+    "meaning": "chi phí",
+    "level": "N3",
+    "hiragana": "ひよう"
+  },
+  {
+    "term": "状態",
+    "meaning": "trạng thái",
+    "level": "N3",
+    "hiragana": "じょうたい"
+  },
+  {
+    "term": "挑戦",
+    "meaning": "thử thách",
+    "level": "N3",
+    "hiragana": "ちょうせん"
+  },
+  {
+    "term": "独立",
+    "meaning": "độc lập",
+    "level": "N3",
+    "hiragana": "どくりつ"
+  },
+  {
+    "term": "支援",
+    "meaning": "hỗ trợ",
+    "level": "N3",
+    "hiragana": "しえん"
+  },
+  {
+    "term": "状況",
+    "meaning": "tình hình",
+    "level": "N3",
+    "hiragana": "じょうきょう"
+  },
+  {
+    "term": "拡大",
+    "meaning": "mở rộng",
+    "level": "N3",
+    "hiragana": "かくだい"
+  },
+  {
+    "term": "詳細",
+    "meaning": "chi tiết",
+    "level": "N3",
+    "hiragana": "しょうさい"
+  },
+  {
+    "term": "必要性",
+    "meaning": "sự cần thiết",
+    "level": "N3",
+    "hiragana": "ひつようせい"
+  },
+  {
+    "term": "対象",
+    "meaning": "đối tượng",
+    "level": "N3",
+    "hiragana": "たいしょう"
+  },
+  {
+    "term": "信頼",
+    "meaning": "tin tưởng",
+    "level": "N3",
+    "hiragana": "しんらい"
+  }
 ]

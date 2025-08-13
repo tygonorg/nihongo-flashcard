@@ -274,6 +274,7 @@ void main() {
       test('should reset streak on failure', () async {
         final vocab = await TestDatabaseService.addVocab(
           term: 'test',
+          hiragana: 'てすと',
           meaning: 'test',
           level: 'N5',
         );
@@ -338,6 +339,7 @@ void main() {
       test('should perform complete review cycle', () async {
         final vocab = await TestDatabaseService.addVocab(
           term: 'こんにちは',
+          hiragana: 'こんにちは',
           meaning: 'hello',
           level: 'N5',
         );
@@ -366,6 +368,7 @@ void main() {
       test('should handle multiple consecutive reviews', () async {
         final vocab = await TestDatabaseService.addVocab(
           term: 'test',
+          hiragana: 'てすと',
           meaning: 'test',
           level: 'N5',
         );
@@ -398,6 +401,7 @@ void main() {
       test('should handle review failure and recovery', () async {
         final vocab = await TestDatabaseService.addVocab(
           term: 'difficult',
+          hiragana: 'ディフィカルト',
           meaning: 'muzukashii',
           level: 'N3',
         );
@@ -541,6 +545,7 @@ Vocab _createTestVocab({
   return Vocab(
     id: 1,
     term: 'test',
+    hiragana: 'てすと',
     meaning: 'test',
     level: 'N5',
     repetitions: repetitions,

@@ -19,6 +19,7 @@ void main() {
       test('creates Vocab with required fields', () {
         final vocab = Vocab(
           term: '水',
+          hiragana: '水',
           meaning: 'water',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -44,6 +45,7 @@ void main() {
         final vocab = Vocab(
           id: 1,
           term: '火',
+          hiragana: '火',
           meaning: 'fire',
           level: 'N4',
           note: 'test note',
@@ -78,6 +80,7 @@ void main() {
         final vocab = Vocab(
           id: 1,
           term: '山',
+          hiragana: '山',
           meaning: 'mountain',
           level: 'N5',
           note: 'test note',
@@ -111,6 +114,7 @@ void main() {
       test('converts Vocab to Map with null optional fields', () {
         final vocab = Vocab(
           term: '川',
+          hiragana: '川',
           meaning: 'river',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -132,6 +136,7 @@ void main() {
       test('handles boolean to int conversion correctly', () {
         final vocabTrue = Vocab(
           term: 'test',
+          hiragana: 'test',
           meaning: 'test',
           level: 'N5',
           favorite: true,
@@ -141,6 +146,7 @@ void main() {
 
         final vocabFalse = Vocab(
           term: 'test',
+          hiragana: 'test',
           meaning: 'test',
           level: 'N5',
           favorite: false,
@@ -254,6 +260,7 @@ void main() {
         final original = Vocab(
           id: 42,
           term: '本',
+          hiragana: '本',
           meaning: 'book',
           level: 'N5',
           note: 'reading material',
@@ -276,6 +283,7 @@ void main() {
       test('round-trip with minimal fields', () {
         final original = Vocab(
           term: '人',
+          hiragana: '人',
           meaning: 'person',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -293,6 +301,7 @@ void main() {
       test('identical objects are equal', () {
         final vocab = Vocab(
           term: '犬',
+          hiragana: '犬',
           meaning: 'dog',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -307,6 +316,7 @@ void main() {
         final vocab1 = Vocab(
           id: 1,
           term: '猫',
+          hiragana: '猫',
           meaning: 'cat',
           level: 'N5',
           note: 'pet',
@@ -323,6 +333,7 @@ void main() {
         final vocab2 = Vocab(
           id: 1,
           term: '猫',
+          hiragana: '猫',
           meaning: 'cat',
           level: 'N5',
           note: 'pet',
@@ -343,6 +354,7 @@ void main() {
       test('objects with different values are not equal', () {
         final vocab1 = Vocab(
           term: '鳥',
+          hiragana: '鳥',
           meaning: 'bird',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -351,6 +363,7 @@ void main() {
 
         final vocab2 = Vocab(
           term: '鳥',
+          hiragana: '鳥',
           meaning: 'bird',
           level: 'N4', // different level
           createdAt: testCreatedAt,
@@ -363,6 +376,7 @@ void main() {
       test('objects with different types are not equal', () {
         final vocab = Vocab(
           term: '魚',
+          hiragana: '魚',
           meaning: 'fish',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -377,6 +391,7 @@ void main() {
       test('null field differences are detected', () {
         final vocab1 = Vocab(
           term: '車',
+          hiragana: '車',
           meaning: 'car',
           level: 'N5',
           note: 'vehicle',
@@ -386,6 +401,7 @@ void main() {
 
         final vocab2 = Vocab(
           term: '車',
+          hiragana: '車',
           meaning: 'car',
           level: 'N5',
           note: null,
@@ -399,6 +415,7 @@ void main() {
       test('DateTime field differences are detected', () {
         final vocab1 = Vocab(
           term: '家',
+          hiragana: '家',
           meaning: 'house',
           level: 'N5',
           dueAt: testDueAt,
@@ -408,6 +425,7 @@ void main() {
 
         final vocab2 = Vocab(
           term: '家',
+          hiragana: '家',
           meaning: 'house',
           level: 'N5',
           dueAt: testDueAt.add(const Duration(minutes: 1)), // slightly different
@@ -426,6 +444,7 @@ void main() {
         originalVocab = Vocab(
           id: 1,
           term: '学校',
+          hiragana: '学校',
           meaning: 'school',
           level: 'N5',
           note: 'education',
@@ -514,6 +533,7 @@ void main() {
         // Start with a vocab that has some null fields
         final vocabWithNulls = Vocab(
           term: 'test',
+          hiragana: 'test',
           meaning: 'test',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -538,6 +558,7 @@ void main() {
         
         originalVocab.copyWith(
           term: 'modified',
+          hiragana: 'modified',
           meaning: 'modified meaning',
         );
 
@@ -551,6 +572,7 @@ void main() {
         final vocab = Vocab(
           id: 5,
           term: '時間',
+          hiragana: '時間',
           meaning: 'time',
           level: 'N5',
           note: 'temporal concept',
@@ -583,6 +605,7 @@ void main() {
       test('toString handles null fields', () {
         final vocab = Vocab(
           term: '名前',
+          hiragana: '名前',
           meaning: 'name',
           level: 'N5',
           createdAt: testCreatedAt,
@@ -636,6 +659,7 @@ void main() {
         final futureDate = DateTime(2100, 12, 31);
         final vocab = Vocab(
           term: 'future',
+          hiragana: 'future',
           meaning: 'test',
           level: 'N5',
           createdAt: futureDate,
@@ -654,6 +678,7 @@ void main() {
       test('handles edge values for numeric fields', () {
         final vocab = Vocab(
           term: 'edge',
+          hiragana: 'edge',
           meaning: 'test',
           level: 'N5',
           easiness: 0.0,

@@ -1,22 +1,122 @@
 [
-  {"term": "顕著", "meaning": "đáng chú ý", "level": "N1"},
-  {"term": "緻密", "meaning": "tỉ mỉ", "level": "N1"},
-  {"term": "錯覚", "meaning": "ảo giác", "level": "N1"},
-  {"term": "曖昧", "meaning": "mơ hồ", "level": "N1"},
-  {"term": "醸成", "meaning": "hình thành", "level": "N1"},
-  {"term": "諮問", "meaning": "tham vấn", "level": "N1"},
-  {"term": "剥奪", "meaning": "tước đoạt", "level": "N1"},
-  {"term": "緩和", "meaning": "giảm bớt", "level": "N1"},
-  {"term": "遵守", "meaning": "tuân thủ", "level": "N1"},
-  {"term": "頒布", "meaning": "phân phát", "level": "N1"},
-  {"term": "勃発", "meaning": "bùng phát", "level": "N1"},
-  {"term": "婉曲", "meaning": "nói giảm", "level": "N1"},
-  {"term": "収斂", "meaning": "hội tụ", "level": "N1"},
-  {"term": "明瞭", "meaning": "rõ ràng", "level": "N1"},
-  {"term": "煩わしい", "meaning": "phiền phức", "level": "N1"},
-  {"term": "愚痴", "meaning": "than phiền", "level": "N1"},
-  {"term": "厳粛", "meaning": "trang nghiêm", "level": "N1"},
-  {"term": "侮辱", "meaning": "xúc phạm", "level": "N1"},
-  {"term": "憤慨", "meaning": "phẫn nộ", "level": "N1"},
-  {"term": "遺憾", "meaning": "đáng tiếc", "level": "N1"}
+  {
+    "term": "顕著",
+    "meaning": "đáng chú ý",
+    "level": "N1",
+    "hiragana": "けんちょ"
+  },
+  {
+    "term": "緻密",
+    "meaning": "tỉ mỉ",
+    "level": "N1",
+    "hiragana": "ちみつ"
+  },
+  {
+    "term": "錯覚",
+    "meaning": "ảo giác",
+    "level": "N1",
+    "hiragana": "さっかく"
+  },
+  {
+    "term": "曖昧",
+    "meaning": "mơ hồ",
+    "level": "N1",
+    "hiragana": "あいまい"
+  },
+  {
+    "term": "醸成",
+    "meaning": "hình thành",
+    "level": "N1",
+    "hiragana": "じょうせい"
+  },
+  {
+    "term": "諮問",
+    "meaning": "tham vấn",
+    "level": "N1",
+    "hiragana": "しもん"
+  },
+  {
+    "term": "剥奪",
+    "meaning": "tước đoạt",
+    "level": "N1",
+    "hiragana": "はくだつ"
+  },
+  {
+    "term": "緩和",
+    "meaning": "giảm bớt",
+    "level": "N1",
+    "hiragana": "かんわ"
+  },
+  {
+    "term": "遵守",
+    "meaning": "tuân thủ",
+    "level": "N1",
+    "hiragana": "じゅんしゅ"
+  },
+  {
+    "term": "頒布",
+    "meaning": "phân phát",
+    "level": "N1",
+    "hiragana": "はんぷ"
+  },
+  {
+    "term": "勃発",
+    "meaning": "bùng phát",
+    "level": "N1",
+    "hiragana": "ぼっぱつ"
+  },
+  {
+    "term": "婉曲",
+    "meaning": "nói giảm",
+    "level": "N1",
+    "hiragana": "えんきょく"
+  },
+  {
+    "term": "収斂",
+    "meaning": "hội tụ",
+    "level": "N1",
+    "hiragana": "しゅうれん"
+  },
+  {
+    "term": "明瞭",
+    "meaning": "rõ ràng",
+    "level": "N1",
+    "hiragana": "めいりょう"
+  },
+  {
+    "term": "煩わしい",
+    "meaning": "phiền phức",
+    "level": "N1",
+    "hiragana": "わずらわしい"
+  },
+  {
+    "term": "愚痴",
+    "meaning": "than phiền",
+    "level": "N1",
+    "hiragana": "ぐち"
+  },
+  {
+    "term": "厳粛",
+    "meaning": "trang nghiêm",
+    "level": "N1",
+    "hiragana": "げんしゅく"
+  },
+  {
+    "term": "侮辱",
+    "meaning": "xúc phạm",
+    "level": "N1",
+    "hiragana": "ぶじょく"
+  },
+  {
+    "term": "憤慨",
+    "meaning": "phẫn nộ",
+    "level": "N1",
+    "hiragana": "ふんがい"
+  },
+  {
+    "term": "遺憾",
+    "meaning": "đáng tiếc",
+    "level": "N1",
+    "hiragana": "いかん"
+  }
 ]

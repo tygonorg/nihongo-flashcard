@@ -6,7 +6,7 @@ class PresetLoader {
   final DatabaseService db;
   PresetLoader(this.db);
 
-  /// JSON format: [{"term":"猫","meaning":"con mèo","level":"N5","note":"neko"}, ...]
+  /// JSON format: [{"term":"猫","hiragana":"ねこ","meaning":"con mèo","level":"N5","note":"neko"}, ...]
   Future<int> importJsonAsset(String path) async {
     final raw = await rootBundle.loadString(path);
     final list = jsonDecode(raw) as List;
@@ -14,6 +14,7 @@ class PresetLoader {
     for (final m in list) {
       await db.addVocab(
         term: m['term'],
+        hiragana: m['hiragana'],
         meaning: m['meaning'],
         level: m['level'],
         note: m['note'],

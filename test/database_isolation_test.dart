@@ -15,8 +15,9 @@ void main() {
     test('Tests are isolated from each other - Test 1', () async {
       // Add some data
       await TestDatabaseService.addVocab(
-        term: 'テスト1', 
-        meaning: 'test 1', 
+        term: 'テスト1',
+        hiragana: 'てすと1',
+        meaning: 'test 1',
         level: 'N5'
       );
       
@@ -32,8 +33,9 @@ void main() {
       
       // Add different data
       await TestDatabaseService.addVocab(
-        term: 'テスト2', 
-        meaning: 'test 2', 
+        term: 'テスト2',
+        hiragana: 'てすと2',
+        meaning: 'test 2',
         level: 'N4'
       );
       
@@ -48,8 +50,9 @@ void main() {
       
       // Verify we can still use the database normally
       await TestDatabaseService.addVocab(
-        term: 'テスト3', 
-        meaning: 'test 3', 
+        term: 'テスト3',
+        hiragana: 'てすと3',
+        meaning: 'test 3',
         level: 'N3'
       );
       
@@ -63,8 +66,9 @@ void main() {
     test('In-memory database is truly independent', () async {
       // Create and populate database
       await TestDatabaseService.addVocab(
-        term: '独立', 
-        meaning: 'độc lập', 
+        term: '独立',
+        hiragana: 'どくりつ',
+        meaning: 'độc lập',
         level: 'N2'
       );
       
@@ -75,8 +79,9 @@ void main() {
       
       // Add more data
       await TestDatabaseService.addVocab(
-        term: 'データベース', 
-        meaning: 'database', 
+        term: 'データベース',
+        hiragana: 'でーたべーす',
+        meaning: 'database',
         level: 'N1'
       );
       
@@ -92,8 +97,9 @@ void main() {
     test('Database can handle complex operations in isolation', () async {
       // Add vocab with review logs
       final vocab = await TestDatabaseService.addVocab(
-        term: '複雑', 
-        meaning: 'phức tạp', 
+        term: '複雑',
+        hiragana: 'ふくざつ',
+        meaning: 'phức tạp',
         level: 'N2'
       );
       

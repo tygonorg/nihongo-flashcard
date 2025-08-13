@@ -37,8 +37,8 @@ class MigrationService {
           // Check if the structure matches our current schema
           final vocabColumns = await db.rawQuery('PRAGMA table_info(vocabs)');
           final expectedColumns = {
-            'id', 'term', 'meaning', 'level', 'note', 'easiness', 
-            'repetitions', 'intervalDays', 'lastReviewedAt', 'dueAt', 
+            'id', 'term', 'hiragana', 'meaning', 'level', 'note', 'easiness',
+            'repetitions', 'intervalDays', 'lastReviewedAt', 'dueAt',
             'favorite', 'createdAt', 'updatedAt'
           };
           
@@ -183,6 +183,7 @@ class MigrationService {
     try {
       // Ensure required fields exist and have proper types
       final term = oldData['term']?.toString() ?? '';
+      final hiragana = oldData['hiragana']?.toString() ?? term;
       final meaning = oldData['meaning']?.toString() ?? '';
       final level = oldData['level']?.toString() ?? 'N5';
       
@@ -206,6 +207,7 @@ class MigrationService {
       // Create new vocab record
       final vocab = Vocab(
         term: term,
+        hiragana: hiragana,
         meaning: meaning,
         level: level,
         note: note,
@@ -222,6 +224,7 @@ class MigrationService {
       // Insert using database service
       await dbService.addVocab(
         term: vocab.term,
+        hiragana: vocab.hiragana,
         meaning: vocab.meaning,
         level: vocab.level,
         note: vocab.note,

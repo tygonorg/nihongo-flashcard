@@ -25,7 +25,7 @@ class RealmService {
       // Khởi tạo SQLite database
       _db = await openDatabase(
         path,
-        version: 1,
+        version: 2,
         onCreate: _createTables,
         onUpgrade: _onUpgrade,
       );
@@ -53,6 +53,7 @@ class RealmService {
       CREATE TABLE vocabs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         term TEXT NOT NULL,
+        hiragana TEXT NOT NULL,
         meaning TEXT NOT NULL,
         level TEXT NOT NULL,
         note TEXT,
@@ -87,6 +88,9 @@ class RealmService {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Handle database upgrades here if needed
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE vocabs ADD COLUMN hiragana TEXT NOT NULL DEFAULT ""');
+    }
   }
 
   bool get isInitialized => _initialized;
@@ -108,6 +112,7 @@ class RealmService {
 
   Future<Vocab?> addVocab({
     required String term,
+    required String hiragana,
     required String meaning,
     required String level,
     String? note,
@@ -117,6 +122,7 @@ class RealmService {
     final now = DateTime.now();
     final vocab = Vocab(
       term: term,
+      hiragana: hiragana,
       meaning: meaning,
       level: level,
       note: note,
@@ -132,6 +138,7 @@ class RealmService {
   Future<void> updateVocab(
     Vocab vocab, {
     String? term,
+    String? hiragana,
     String? meaning,
     String? level,
     String? note,
@@ -140,6 +147,7 @@ class RealmService {
     if (_db == null || vocab.id == null) return;
 
     if (term != null) vocab.term = term;
+    if (hiragana != null) vocab.hiragana = hiragana;
     if (meaning != null) vocab.meaning = meaning;
     if (level != null) vocab.level = level;
     if (note != null) vocab.note = note;

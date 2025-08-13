@@ -1,6 +1,7 @@
 class Vocab {
   int? id;
   String term;
+  String hiragana;
   String meaning;
   String level;
   String? note;
@@ -22,6 +23,7 @@ class Vocab {
   Vocab({
     this.id,
     required this.term,
+    required this.hiragana,
     required this.meaning,
     required this.level,
     this.note,
@@ -39,6 +41,7 @@ class Vocab {
     return {
       'id': id,
       'term': term,
+      'hiragana': hiragana,
       'meaning': meaning,
       'level': level,
       'note': note,
@@ -57,6 +60,7 @@ class Vocab {
     return Vocab(
       id: map['id'],
       term: map['term'],
+      hiragana: map['hiragana'],
       meaning: map['meaning'],
       level: map['level'],
       note: map['note'],
@@ -79,6 +83,7 @@ class Vocab {
   Vocab copyWith({
     int? id,
     String? term,
+    String? hiragana,
     String? meaning,
     String? level,
     String? note,
@@ -94,6 +99,7 @@ class Vocab {
     return Vocab(
       id: id ?? this.id,
       term: term ?? this.term,
+      hiragana: hiragana ?? this.hiragana,
       meaning: meaning ?? this.meaning,
       level: level ?? this.level,
       note: note ?? this.note,
@@ -114,6 +120,7 @@ class Vocab {
     return other is Vocab &&
         other.id == id &&
         other.term == term &&
+        other.hiragana == hiragana &&
         other.meaning == meaning &&
         other.level == level &&
         other.note == note &&
@@ -132,6 +139,7 @@ class Vocab {
     return Object.hash(
       id,
       term,
+      hiragana,
       meaning,
       level,
       note,
@@ -148,6 +156,6 @@ class Vocab {
 
   @override
   String toString() {
-    return 'Vocab{id: $id, term: $term, meaning: $meaning, level: $level, note: $note, easiness: $easiness, repetitions: $repetitions, intervalDays: $intervalDays, lastReviewedAt: $lastReviewedAt, dueAt: $dueAt, favorite: $favorite, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'Vocab{' 'id: $id, term: $term, hiragana: $hiragana, meaning: $meaning, level: $level, note: $note, ' 'easiness: $easiness, repetitions: $repetitions, intervalDays: $intervalDays, lastReviewedAt: $lastReviewedAt, ' 'dueAt: $dueAt, favorite: $favorite, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 }
