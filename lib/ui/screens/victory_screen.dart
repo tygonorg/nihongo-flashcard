@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class VictoryScreen extends StatelessWidget {
   final int correct;
@@ -24,10 +25,10 @@ class VictoryScreen extends StatelessWidget {
             Text('Sai: $wrong'),
             Text('Tỉ lệ: $percent%'),
             const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Hoàn thành'),
-            )
+              ElevatedButton(
+                onPressed: () => context.go('/'),
+                child: const Text('Hoàn thành'),
+              )
           ],
         ),
       ),
