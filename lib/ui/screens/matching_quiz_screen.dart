@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import '../../locator.dart';
 import '../../services/database_service.dart';
 import '../../controllers/level_controller.dart';
+import '../../controllers/settings_controller.dart';
 import '../../models/vocab.dart';
+import 'victory_screen.dart';
 
 class MatchingQuizScreen extends StatefulWidget {
   const MatchingQuizScreen({super.key});
@@ -15,12 +17,14 @@ class MatchingQuizScreen extends StatefulWidget {
 class _State extends State<MatchingQuizScreen> {
   final DatabaseService db = locator<DatabaseService>();
   final LevelController levelCtrl = Get.find();
+  final SettingsController settings = Get.find();
   late List<Vocab> pool;
   List<Vocab> terms = [];
   List<Vocab> meanings = [];
   Vocab? selectedTerm;
   Vocab? selectedMeaning;
   int correctSets = 0;
+  late int maxSets;
 
   @override
   void initState() {
@@ -29,16 +33,23 @@ class _State extends State<MatchingQuizScreen> {
   }
 
   void _newQuiz() async {
-    pool = await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    final result =
+        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    result.shuffle();
+    maxSets = min(settings.quizLength.value, result.length ~/ 3);
+    pool = result.take(maxSets * 3).toList();
     correctSets = 0;
     _nextSet();
     setState(() {});
   }
 
   void _nextSet() {
-    if (pool.length < 3) return;
-    pool.shuffle();
-    final currentSet = pool.take(3).toList();
+    final start = correctSets * 3;
+    if (start >= pool.length) {
+      _finishQuiz();
+      return;
+    }
+    final currentSet = pool.sublist(start, start + 3);
     terms = List<Vocab>.from(currentSet);
     meanings = List<Vocab>.from(currentSet)..shuffle(Random());
     selectedTerm = null;
@@ -57,7 +68,11 @@ class _State extends State<MatchingQuizScreen> {
         selectedMeaning = null;
         if (terms.isEmpty) {
           correctSets++;
-          _nextSet();
+          if (correctSets >= maxSets) {
+            _finishQuiz();
+          } else {
+            _nextSet();
+          }
         }
       } else {
         ScaffoldMessenger.of(context)
@@ -66,6 +81,37 @@ class _State extends State<MatchingQuizScreen> {
         selectedMeaning = null;
       }
       setState(() {});
+    }
+  }
+
+  void _finishQuiz() {
+    final wrong = maxSets - correctSets;
+    final percent = correctSets / maxSets * 100;
+    if (percent >= 70) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) =>
+                VictoryScreen(correct: correctSets, total: maxSets)),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Kết quả'),
+          content: Text(
+              'Điểm: $correctSets/$maxSets\nĐúng: $correctSets\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('Đóng'),
+            )
+          ],
+        ),
+      );
     }
   }
 

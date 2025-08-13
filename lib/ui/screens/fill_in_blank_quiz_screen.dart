@@ -1,9 +1,12 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../locator.dart';
 import '../../services/database_service.dart';
 import '../../controllers/level_controller.dart';
+import '../../controllers/settings_controller.dart';
 import '../../models/vocab.dart';
+import 'victory_screen.dart';
 
 class FillInBlankQuizScreen extends StatefulWidget {
   const FillInBlankQuizScreen({super.key});
@@ -14,7 +17,9 @@ class FillInBlankQuizScreen extends StatefulWidget {
 class _State extends State<FillInBlankQuizScreen> {
   final DatabaseService db = locator<DatabaseService>();
   final LevelController levelCtrl = Get.find();
+  final SettingsController settings = Get.find();
   late List<Vocab> pool;
+  late int maxQuestions;
   int qIndex = 0;
   int correct = 0;
   Vocab? current;
@@ -27,7 +32,11 @@ class _State extends State<FillInBlankQuizScreen> {
   }
 
   void _newQuiz() async {
-    pool = await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    final result =
+        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    result.shuffle();
+    maxQuestions = min(settings.quizLength.value, result.length);
+    pool = result.take(maxQuestions).toList();
     qIndex = 0;
     correct = 0;
     _nextQ();
@@ -35,10 +44,42 @@ class _State extends State<FillInBlankQuizScreen> {
   }
 
   void _nextQ() {
-    if (pool.isEmpty) return;
-    pool.shuffle();
-    current = pool.first;
+    if (qIndex >= maxQuestions) {
+      _finishQuiz();
+      return;
+    }
+    current = pool[qIndex];
     controller.clear();
+  }
+
+  void _finishQuiz() {
+    final wrong = maxQuestions - correct;
+    final percent = correct / maxQuestions * 100;
+    if (percent >= 70) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => VictoryScreen(correct: correct, total: maxQuestions)),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Kết quả'),
+          content: Text(
+              'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('Đóng'),
+            )
+          ],
+        ),
+      );
+    }
   }
 
   @override
