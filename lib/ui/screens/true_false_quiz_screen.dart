@@ -33,8 +33,7 @@ class _State extends State<TrueFalseQuizScreen> {
   }
 
   void _newQuiz() async {
-    final result =
-        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    final result = await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
     result.shuffle();
     maxQuestions = min(settings.quizLength.value, result.length);
     pool = result.take(maxQuestions).toList();
@@ -69,7 +68,8 @@ class _State extends State<TrueFalseQuizScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => VictoryScreen(correct: correct, total: maxQuestions)),
+            builder: (_) =>
+                VictoryScreen(correct: correct, total: maxQuestions)),
       );
     } else {
       showDialog(
@@ -132,10 +132,16 @@ class _State extends State<TrueFalseQuizScreen> {
                 if (ok) correct++;
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(ok ? 'Đúng!' : 'Sai')));
+                final isLast = qIndex + 1 >= maxQuestions;
                 setState(() {
                   qIndex++;
-                  _nextQ();
+                  if (!isLast) {
+                    _nextQ();
+                  }
                 });
+                if (isLast) {
+                  _finishQuiz();
+                }
               },
               child: const Text('Đúng'),
             ),
@@ -146,10 +152,16 @@ class _State extends State<TrueFalseQuizScreen> {
                 if (ok) correct++;
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text(ok ? 'Đúng!' : 'Sai')));
+                final isLast = qIndex + 1 >= maxQuestions;
                 setState(() {
                   qIndex++;
-                  _nextQ();
+                  if (!isLast) {
+                    _nextQ();
+                  }
                 });
+                if (isLast) {
+                  _finishQuiz();
+                }
               },
               child: const Text('Sai'),
             ),
@@ -161,4 +173,3 @@ class _State extends State<TrueFalseQuizScreen> {
     );
   }
 }
-
