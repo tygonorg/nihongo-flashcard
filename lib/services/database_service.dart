@@ -46,7 +46,7 @@ class DatabaseService {
       // Initialize SQLite database
       final db = await openDatabase(
         path,
-        version: 1,
+        version: 2,
         onCreate: _createTables,
         onUpgrade: _onUpgrade,
       );
@@ -80,6 +80,7 @@ class DatabaseService {
       CREATE TABLE vocabs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         term TEXT NOT NULL,
+        hiragana TEXT NOT NULL,
         meaning TEXT NOT NULL,
         level TEXT NOT NULL,
         note TEXT,
@@ -156,6 +157,9 @@ class DatabaseService {
     if (kDebugMode) {
       print('Upgrading database from version $oldVersion to $newVersion');
     }
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE vocabs ADD COLUMN hiragana TEXT NOT NULL DEFAULT ""');
+    }
   }
 
   // CRUD Operations for Vocab
@@ -219,6 +223,7 @@ class DatabaseService {
   /// Add a new vocab
   Future<Vocab> addVocab({
     required String term,
+    required String hiragana,
     required String meaning,
     required String level,
     String? note,
@@ -229,6 +234,7 @@ class DatabaseService {
     
     final vocab = Vocab(
       term: term,
+      hiragana: hiragana,
       meaning: meaning,
       level: level,
       note: note,
@@ -246,6 +252,7 @@ class DatabaseService {
   Future<void> updateVocab(
     Vocab vocab, {
     String? term,
+    String? hiragana,
     String? meaning,
     String? level,
     String? note,
@@ -259,6 +266,7 @@ class DatabaseService {
 
     // Update only provided fields
     if (term != null) vocab.term = term;
+    if (hiragana != null) vocab.hiragana = hiragana;
     if (meaning != null) vocab.meaning = meaning;
     if (level != null) vocab.level = level;
     if (note != null) vocab.note = note;
@@ -323,10 +331,10 @@ class DatabaseService {
     final db = await database;
     
     String sql = '''
-      SELECT * FROM vocabs 
-      WHERE (term LIKE ? OR meaning LIKE ?)
+      SELECT * FROM vocabs
+      WHERE (term LIKE ? OR hiragana LIKE ? OR meaning LIKE ?)
     ''';
-    List<dynamic> args = ['%$query%', '%$query%'];
+    List<dynamic> args = ['%$query%', '%$query%', '%$query%'];
 
     if (level != null) {
       sql += ' AND level = ?';

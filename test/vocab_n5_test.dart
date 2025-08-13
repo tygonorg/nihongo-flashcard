@@ -14,15 +14,18 @@ void main() {
 
     test('Thêm một số từ N5', () async {
       final words = [
-        {'term': '水', 'meaning': 'nước', 'level': 'N5'},
-        {'term': '火', 'meaning': 'lửa', 'level': 'N5'},
-        {'term': '山', 'meaning': 'núi', 'level': 'N5'},
-        {'term': '川', 'meaning': 'sông', 'level': 'N5'},
-        {'term': '空', 'meaning': 'bầu trời', 'level': 'N5'},
+        {'term': '水', 'hiragana': 'みず', 'meaning': 'nước', 'level': 'N5'},
+        {'term': '火', 'hiragana': 'ひ', 'meaning': 'lửa', 'level': 'N5'},
+        {'term': '山', 'hiragana': 'やま', 'meaning': 'núi', 'level': 'N5'},
+        {'term': '川', 'hiragana': 'かわ', 'meaning': 'sông', 'level': 'N5'},
+        {'term': '空', 'hiragana': 'そら', 'meaning': 'bầu trời', 'level': 'N5'},
       ];
       for (final w in words) {
         final v = await TestDatabaseService.addVocab(
-            term: w['term']!, meaning: w['meaning']!, level: w['level']!);
+            term: w['term']!,
+            hiragana: w['hiragana']!,
+            meaning: w['meaning']!,
+            level: w['level']!);
         expect(v.term, w['term']);
         expect(v.meaning, w['meaning']);
         expect(v.level, w['level']);
@@ -40,11 +43,11 @@ void main() {
     test('Tìm kiếm từ vựng', () async {
       // Add some test data
       await TestDatabaseService.addVocab(
-          term: '本', meaning: 'sách', level: 'N5');
+          term: '本', hiragana: 'ほん', meaning: 'sách', level: 'N5');
       await TestDatabaseService.addVocab(
-          term: '水', meaning: 'nước', level: 'N5');
+          term: '水', hiragana: 'みず', meaning: 'nước', level: 'N5');
       await TestDatabaseService.addVocab(
-          term: '図書館', meaning: 'thư viện', level: 'N4');
+          term: '図書館', hiragana: 'としょかん', meaning: 'thư viện', level: 'N4');
       
       // Search by term
       final searchByTerm = await TestDatabaseService.searchVocabs('本');
@@ -64,7 +67,7 @@ void main() {
     test('Cập nhật và xóa từ vựng', () async {
       // Add a vocab
       final vocab = await TestDatabaseService.addVocab(
-          term: '犬', meaning: 'chó', level: 'N5');
+          term: '犬', hiragana: 'いぬ', meaning: 'chó', level: 'N5');
       
       // Update it
       await TestDatabaseService.updateVocab(
@@ -104,11 +107,11 @@ void main() {
       
       // Add vocabs with different due dates
       final vocab1 = await TestDatabaseService.addVocab(
-          term: '水', meaning: 'nước', level: 'N5');
+          term: '水', hiragana: 'みず', meaning: 'nước', level: 'N5');
       final vocab2 = await TestDatabaseService.addVocab(
-          term: '火', meaning: 'lửa', level: 'N5');
+          term: '火', hiragana: 'ひ', meaning: 'lửa', level: 'N5');
       final vocab3 = await TestDatabaseService.addVocab(
-          term: '山', meaning: 'núi', level: 'N5');
+          term: '山', hiragana: 'やま', meaning: 'núi', level: 'N5');
       
       // Manually set due dates
       vocab1.dueAt = past; // Past due

@@ -42,6 +42,7 @@ class DatabaseServiceTest {
       CREATE TABLE vocabs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         term TEXT NOT NULL,
+        hiragana TEXT NOT NULL,
         meaning TEXT NOT NULL,
         level TEXT NOT NULL,
         note TEXT,
@@ -95,6 +96,7 @@ class DatabaseServiceTest {
   /// Insert a new vocab
   static Future<Vocab> insertVocab({
     required String term,
+    String? hiragana,
     required String meaning,
     required String level,
     String? note,
@@ -107,9 +109,10 @@ class DatabaseServiceTest {
   }) async {
     final db = await database;
     final now = DateTime.now();
-    
+
     final vocab = Vocab(
       term: term,
+      hiragana: hiragana ?? term,
       meaning: meaning,
       level: level,
       note: note,

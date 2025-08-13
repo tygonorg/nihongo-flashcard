@@ -38,6 +38,7 @@ class TestDatabaseHelper {
       CREATE TABLE vocabs (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         term TEXT NOT NULL,
+        hiragana TEXT NOT NULL,
         meaning TEXT NOT NULL,
         level TEXT NOT NULL,
         note TEXT,
@@ -111,6 +112,7 @@ class TestDatabaseService {
   /// Add a new vocab
   static Future<Vocab> addVocab({
     required String term,
+    required String hiragana,
     required String meaning,
     required String level,
     String? note,
@@ -126,6 +128,7 @@ class TestDatabaseService {
     
     final vocab = Vocab(
       term: term,
+      hiragana: hiragana,
       meaning: meaning,
       level: level,
       note: note,
@@ -259,10 +262,10 @@ class TestDatabaseService {
     final db = await database;
     
     String sql = '''
-      SELECT * FROM vocabs 
-      WHERE (term LIKE ? OR meaning LIKE ?)
+      SELECT * FROM vocabs
+      WHERE (term LIKE ? OR hiragana LIKE ? OR meaning LIKE ?)
     ''';
-    List<dynamic> args = ['%$query%', '%$query%'];
+    List<dynamic> args = ['%$query%', '%$query%', '%$query%'];
 
     if (level != null) {
       sql += ' AND level = ?';

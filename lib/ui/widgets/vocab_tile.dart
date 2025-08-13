@@ -9,7 +9,7 @@ class VocabTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(v.term, style: Theme.of(context).textTheme.titleLarge),
-      subtitle: Text(v.meaning),
+      subtitle: Text('${v.hiragana} – ${v.meaning}'),
       trailing: Text(v.level),
       onTap: onTap,
     );

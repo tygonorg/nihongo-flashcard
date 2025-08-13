@@ -1,22 +1,122 @@
 [
-  {"term": "必要", "meaning": "cần thiết", "level": "N4"},
-  {"term": "自由", "meaning": "tự do", "level": "N4"},
-  {"term": "世界", "meaning": "thế giới", "level": "N4"},
-  {"term": "経験", "meaning": "kinh nghiệm", "level": "N4"},
-  {"term": "約束", "meaning": "lời hứa", "level": "N4"},
-  {"term": "調べる", "meaning": "điều tra", "level": "N4"},
-  {"term": "準備", "meaning": "chuẩn bị", "level": "N4"},
-  {"term": "発音", "meaning": "phát âm", "level": "N4"},
-  {"term": "場合", "meaning": "trường hợp", "level": "N4"},
-  {"term": "打つ", "meaning": "đánh", "level": "N4"},
-  {"term": "港", "meaning": "cảng", "level": "N4"},
-  {"term": "田舎", "meaning": "nông thôn", "level": "N4"},
-  {"term": "観光", "meaning": "tham quan", "level": "N4"},
-  {"term": "優しい", "meaning": "tốt bụng", "level": "N4"},
-  {"term": "込む", "meaning": "đông đúc", "level": "N4"},
-  {"term": "知らせる", "meaning": "thông báo", "level": "N4"},
-  {"term": "習慣", "meaning": "thói quen", "level": "N4"},
-  {"term": "記念", "meaning": "kỷ niệm", "level": "N4"},
-  {"term": "比べる", "meaning": "so sánh", "level": "N4"},
-  {"term": "相談", "meaning": "thảo luận", "level": "N4"}
+  {
+    "term": "必要",
+    "meaning": "cần thiết",
+    "level": "N4",
+    "hiragana": "ひつよう"
+  },
+  {
+    "term": "自由",
+    "meaning": "tự do",
+    "level": "N4",
+    "hiragana": "じゆう"
+  },
+  {
+    "term": "世界",
+    "meaning": "thế giới",
+    "level": "N4",
+    "hiragana": "せかい"
+  },
+  {
+    "term": "経験",
+    "meaning": "kinh nghiệm",
+    "level": "N4",
+    "hiragana": "けいけん"
+  },
+  {
+    "term": "約束",
+    "meaning": "lời hứa",
+    "level": "N4",
+    "hiragana": "やくそく"
+  },
+  {
+    "term": "調べる",
+    "meaning": "điều tra",
+    "level": "N4",
+    "hiragana": "しらべる"
+  },
+  {
+    "term": "準備",
+    "meaning": "chuẩn bị",
+    "level": "N4",
+    "hiragana": "じゅんび"
+  },
+  {
+    "term": "発音",
+    "meaning": "phát âm",
+    "level": "N4",
+    "hiragana": "はつおん"
+  },
+  {
+    "term": "場合",
+    "meaning": "trường hợp",
+    "level": "N4",
+    "hiragana": "ばあい"
+  },
+  {
+    "term": "打つ",
+    "meaning": "đánh",
+    "level": "N4",
+    "hiragana": "うつ"
+  },
+  {
+    "term": "港",
+    "meaning": "cảng",
+    "level": "N4",
+    "hiragana": "みなと"
+  },
+  {
+    "term": "田舎",
+    "meaning": "nông thôn",
+    "level": "N4",
+    "hiragana": "いなか"
+  },
+  {
+    "term": "観光",
+    "meaning": "tham quan",
+    "level": "N4",
+    "hiragana": "かんこう"
+  },
+  {
+    "term": "優しい",
+    "meaning": "tốt bụng",
+    "level": "N4",
+    "hiragana": "やさしい"
+  },
+  {
+    "term": "込む",
+    "meaning": "đông đúc",
+    "level": "N4",
+    "hiragana": "こむ"
+  },
+  {
+    "term": "知らせる",
+    "meaning": "thông báo",
+    "level": "N4",
+    "hiragana": "しらせる"
+  },
+  {
+    "term": "習慣",
+    "meaning": "thói quen",
+    "level": "N4",
+    "hiragana": "しゅうかん"
+  },
+  {
+    "term": "記念",
+    "meaning": "kỷ niệm",
+    "level": "N4",
+    "hiragana": "きねん"
+  },
+  {
+    "term": "比べる",
+    "meaning": "so sánh",
+    "level": "N4",
+    "hiragana": "くらべる"
+  },
+  {
+    "term": "相談",
+    "meaning": "thảo luận",
+    "level": "N4",
+    "hiragana": "そうだん"
+  }
 ]

@@ -13,6 +13,7 @@ class AddEditVocabScreen extends StatefulWidget {
 class _State extends State<AddEditVocabScreen> {
   final _formKey = GlobalKey<FormState>();
   String _term = '';
+  String _hiragana = '';
   String _meaning = '';
   String _level = 'N5';
   String? _note;
@@ -23,6 +24,7 @@ class _State extends State<AddEditVocabScreen> {
     super.initState();
     if (widget.vocab != null) {
       _term = widget.vocab!.term;
+      _hiragana = widget.vocab!.hiragana;
       _meaning = widget.vocab!.meaning;
       _level = widget.vocab!.level;
       _note = widget.vocab!.note;
@@ -43,6 +45,12 @@ class _State extends State<AddEditVocabScreen> {
               decoration: const InputDecoration(labelText: 'Từ (kanji/kana)'),
               onSaved: (v) => _term = v!.trim(),
               validator: (v) => (v == null || v.trim().isEmpty) ? 'Nhập từ' : null,
+            ),
+            TextFormField(
+              initialValue: _hiragana,
+              decoration: const InputDecoration(labelText: 'Hiragana'),
+              onSaved: (v) => _hiragana = v!.trim(),
+              validator: (v) => (v == null || v.trim().isEmpty) ? 'Nhập hiragana' : null,
             ),
             TextFormField(
               initialValue: _meaning,
@@ -87,6 +95,7 @@ class _State extends State<AddEditVocabScreen> {
                       if (widget.vocab == null) {
                         await db.addVocab(
                             term: _term,
+                            hiragana: _hiragana,
                             meaning: _meaning,
                             level: _level,
                             note: _note);
@@ -94,6 +103,7 @@ class _State extends State<AddEditVocabScreen> {
                         await db.updateVocab(
                             widget.vocab!,
                             term: _term,
+                            hiragana: _hiragana,
                             meaning: _meaning,
                             level: _level,
                             note: _note);

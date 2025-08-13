@@ -10,7 +10,7 @@ void main() {
 
   test('daily counts and streak', () async {
     final v = await TestDatabaseService.addVocab(
-        term: '猫', meaning: 'mèo', level: 'N5');
+        term: '猫', hiragana: 'ねこ', meaning: 'mèo', level: 'N5');
     final now = DateTime.now();
     await TestDatabaseService.addReviewLog(
         vocab: v, grade: 5, nextInterval: 1, reviewedAt: now);
@@ -33,7 +33,7 @@ void main() {
 
   test('backup and restore', () async {
     final v = await TestDatabaseService.addVocab(
-        term: '犬', meaning: 'chó', level: 'N5');
+        term: '犬', hiragana: 'いぬ', meaning: 'chó', level: 'N5');
     final tempDir = await Directory.systemTemp.createTemp();
     final path = '${tempDir.path}/backup.json';
     await TestDatabaseService.backupToFile(path);
