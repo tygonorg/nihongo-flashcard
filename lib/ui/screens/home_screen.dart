@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
 import '../../locator.dart';
 import '../../services/database_service.dart';
 import '../../models/vocab.dart';
 import '../../models/kanji.dart';
+import '../../controllers/level_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final DatabaseService db = locator<DatabaseService>();
+  final LevelController levelCtrl = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -53,22 +56,22 @@ class HomeScreen extends StatelessWidget {
                 ListTile(title: Text(k.character), subtitle: Text(k.meaning)),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: () => context.push('/quiz'),
+                onPressed: () => _selectLevel(context, '/quiz'),
                 child: const Text('Trắc nghiệm 4 lựa chọn'),
               ),
               const SizedBox(height: 8),
               FilledButton(
-                onPressed: () => context.push('/quiz-tf'),
+                onPressed: () => _selectLevel(context, '/quiz-tf'),
                 child: const Text('Trắc nghiệm Đúng/Sai'),
               ),
               const SizedBox(height: 8),
               FilledButton(
-                onPressed: () => context.push('/quiz-fill'),
+                onPressed: () => _selectLevel(context, '/quiz-fill'),
                 child: const Text('Trắc nghiệm Điền khuyết'),
               ),
               const SizedBox(height: 8),
               FilledButton(
-                onPressed: () => context.push('/quiz-match'),
+                onPressed: () => _selectLevel(context, '/quiz-match'),
                 child: const Text('Trắc nghiệm Matching'),
               ),
               const SizedBox(height: 16),
@@ -91,6 +94,29 @@ class HomeScreen extends StatelessWidget {
       kanjis.length,
       vocabs.take(5).toList(),
       kanjis.take(5).toList(),
+    );
+  }
+
+  void _selectLevel(BuildContext context, String route) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        const levels = ['N5', 'N4', 'N3', 'N2', 'N1'];
+        return SimpleDialog(
+          title: const Text('Chọn cấp độ'),
+          children: [
+            for (final lv in levels)
+              SimpleDialogOption(
+                onPressed: () {
+                  levelCtrl.setLevel(lv);
+                  Navigator.pop(context);
+                  context.push(route);
+                },
+                child: Text(lv),
+              ),
+          ],
+        );
+      },
     );
   }
 }
