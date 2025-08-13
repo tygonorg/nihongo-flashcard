@@ -33,11 +33,9 @@ class _State extends State<QuizScreen> {
   }
 
   void _newQuiz() async {
-    final result =
-        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    final result = await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
     result.shuffle();
-    maxQuestions =
-        min(settings.quizLength.value, result.length);
+    maxQuestions = min(settings.quizLength.value, result.length);
     pool = result.take(maxQuestions).toList();
     qIndex = 0;
     correct = 0;
@@ -124,11 +122,16 @@ class _State extends State<QuizScreen> {
                           if (ok) correct++;
                           setState(() => answerCorrect = ok);
                           Future.delayed(const Duration(seconds: 2), () {
-                            setState(() {
-                              qIndex++;
-                              answerCorrect = null;
-                              _nextQ();
-                            });
+                            final isLast = qIndex + 1 >= maxQuestions;
+                            if (isLast) {
+                              _finishQuiz();
+                            } else {
+                              setState(() {
+                                qIndex++;
+                                answerCorrect = null;
+                                _nextQ();
+                              });
+                            }
                           });
                         }
                       : null,

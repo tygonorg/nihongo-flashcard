@@ -150,10 +150,16 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
                             Text(ok ? 'Đúng!' : 'Sai: ${current!.meaning}'),
                       ),
                     );
+                    final isLast = qIndex + 1 >= maxQuestions;
                     setState(() {
                       qIndex++;
-                      _nextQ();
+                      if (!isLast) {
+                        _nextQ();
+                      }
                     });
+                    if (isLast) {
+                      _finishQuiz();
+                    }
                   },
                   child: Text(o.meaning),
                 ),
@@ -173,7 +179,8 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => VictoryScreen(correct: correct, total: maxQuestions)),
+            builder: (_) =>
+                VictoryScreen(correct: correct, total: maxQuestions)),
       );
     } else {
       showDialog(

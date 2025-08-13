@@ -33,8 +33,7 @@ class _State extends State<MatchingQuizScreen> {
   }
 
   void _newQuiz() async {
-    final result =
-        await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
+    final result = await db.getAllVocabs(level: levelCtrl.selectedLevel.value);
     result.shuffle();
     maxSets = min(settings.quizLength.value, result.length ~/ 3);
     pool = result.take(maxSets * 3).toList();
@@ -70,6 +69,7 @@ class _State extends State<MatchingQuizScreen> {
           correctSets++;
           if (correctSets >= maxSets) {
             _finishQuiz();
+            return;
           } else {
             _nextSet();
           }
@@ -187,4 +187,3 @@ class _State extends State<MatchingQuizScreen> {
     );
   }
 }
-
