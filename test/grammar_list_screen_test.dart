@@ -55,12 +55,11 @@ void main() {
         find.widgetWithText(TextFormField, 'Tiêu đề'), 'テスト');
     await tester.enterText(
         find.widgetWithText(TextFormField, 'Nghĩa'), 'test meaning');
-    await tester.enterText(
-        find.widgetWithText(TextFormField, 'Ví dụ'), '例');
+    await tester.enterText(find.widgetWithText(TextFormField, 'Ví dụ'), '例');
     await tester.enterText(
         find.widgetWithText(TextFormField, 'Nội dung'), 'content');
 
-    await tester.tap(find.text('Lưu'));
+    await tester.tap(find.byIcon(Icons.save));
     await tester.pumpAndSettle();
 
     expect(find.text('テスト'), findsOneWidget);
@@ -87,9 +86,8 @@ void main() {
     await tester.tap(find.text('Sửa'));
     await tester.pumpAndSettle();
 
-    await tester.enterText(
-        find.widgetWithText(TextFormField, 'Tiêu đề'), 'はね');
-    await tester.tap(find.text('Lưu'));
+    await tester.enterText(find.widgetWithText(TextFormField, 'Tiêu đề'), 'はね');
+    await tester.tap(find.byIcon(Icons.save));
     await tester.pumpAndSettle();
 
     expect(find.text('はね'), findsOneWidget);

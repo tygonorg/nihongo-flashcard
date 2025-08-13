@@ -7,7 +7,7 @@ import 'package:nihongo_flashcard/models/vocab.dart';
 /// Unit test version of DatabaseService for testing CRUD operations
 class DatabaseServiceTest {
   static Database? _database;
-  
+
   /// Initialize sqflite_common_ffi for testing (avoiding file I/O)
   static void initializeFfi() {
     if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
@@ -19,9 +19,9 @@ class DatabaseServiceTest {
   /// Get in-memory database instance for unit tests
   static Future<Database> get database async {
     if (_database != null) return _database!;
-    
+
     initializeFfi();
-    
+
     _database = await openDatabase(
       ':memory:', // In-memory database to avoid file I/O
       version: 1,
@@ -31,7 +31,7 @@ class DatabaseServiceTest {
         await db.execute('PRAGMA foreign_keys = ON');
       },
     );
-    
+
     return _database!;
   }
 
@@ -148,7 +148,7 @@ class DatabaseServiceTest {
   /// Read all vocabs
   static Future<List<Vocab>> readAllVocabs({String? level}) async {
     final db = await database;
-    
+
     String sql = 'SELECT * FROM vocabs';
     List<dynamic> args = [];
 
@@ -166,7 +166,7 @@ class DatabaseServiceTest {
   /// Search vocabs by term or meaning
   static Future<List<Vocab>> searchVocabs(String query, {String? level}) async {
     final db = await database;
-    
+
     String sql = '''
       SELECT * FROM vocabs 
       WHERE (term LIKE ? OR meaning LIKE ?)
@@ -219,7 +219,7 @@ class DatabaseServiceTest {
     DateTime? reviewedAt,
   }) async {
     final db = await database;
-    
+
     final log = ReviewLog(
       vocabId: vocabId,
       reviewedAt: reviewedAt ?? DateTime.now(),
@@ -248,7 +248,7 @@ class DatabaseServiceTest {
   /// Count vocabs
   static Future<int> countVocabs({String? level}) async {
     final db = await database;
-    
+
     String sql = 'SELECT COUNT(*) as count FROM vocabs';
     List<dynamic> args = [];
 
@@ -264,7 +264,7 @@ class DatabaseServiceTest {
   /// Count review logs
   static Future<int> countReviewLogs({int? vocabId}) async {
     final db = await database;
-    
+
     String sql = 'SELECT COUNT(*) as count FROM review_logs';
     List<dynamic> args = [];
 
@@ -316,7 +316,7 @@ void main() {
       test('Should insert vocab with all fields', () async {
         final now = DateTime.now();
         final dueDate = now.add(const Duration(days: 1));
-        
+
         final vocab = await DatabaseServiceTest.insertVocab(
           term: '猫',
           meaning: 'cat',
@@ -370,7 +370,8 @@ void main() {
           level: 'N5',
         );
 
-        final readVocab = await DatabaseServiceTest.readVocabById(insertedVocab.id!);
+        final readVocab =
+            await DatabaseServiceTest.readVocabById(insertedVocab.id!);
 
         expect(readVocab, isNotNull);
         expect(readVocab!.id, insertedVocab.id);
@@ -385,9 +386,12 @@ void main() {
       });
 
       test('Should read all vocabs', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '鳥', meaning: 'bird', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '鳥', meaning: 'bird', level: 'N4');
 
         final allVocabs = await DatabaseServiceTest.readAllVocabs();
 
@@ -399,9 +403,12 @@ void main() {
       });
 
       test('Should read vocabs filtered by level', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '図書館', meaning: 'library', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '図書館', meaning: 'library', level: 'N4');
 
         final n5Vocabs = await DatabaseServiceTest.readAllVocabs(level: 'N5');
         final n4Vocabs = await DatabaseServiceTest.readAllVocabs(level: 'N4');
@@ -413,13 +420,13 @@ void main() {
 
       test('Should order vocabs by updatedAt DESC', () async {
         final vocab1 = await DatabaseServiceTest.insertVocab(
-          term: 'first', meaning: 'first', level: 'N5');
-        
+            term: 'first', meaning: 'first', level: 'N5');
+
         // Small delay to ensure different timestamps
         await Future.delayed(const Duration(milliseconds: 10));
-        
+
         final vocab2 = await DatabaseServiceTest.insertVocab(
-          term: 'second', meaning: 'second', level: 'N5');
+            term: 'second', meaning: 'second', level: 'N5');
 
         final allVocabs = await DatabaseServiceTest.readAllVocabs();
 
@@ -431,9 +438,12 @@ void main() {
 
     group('Vocab Search Operations', () {
       test('Should search by term', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '鳥', meaning: 'bird', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '鳥', meaning: 'bird', level: 'N4');
 
         final results = await DatabaseServiceTest.searchVocabs('犬');
 
@@ -442,8 +452,10 @@ void main() {
       });
 
       test('Should search by meaning', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
 
         final results = await DatabaseServiceTest.searchVocabs('cat');
 
@@ -452,8 +464,10 @@ void main() {
       });
 
       test('Should search with partial matches', () async {
-        await DatabaseServiceTest.insertVocab(term: '図書館', meaning: 'library', level: 'N4');
-        await DatabaseServiceTest.insertVocab(term: '図書', meaning: 'book', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '図書館', meaning: 'library', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '図書', meaning: 'book', level: 'N5');
 
         final results = await DatabaseServiceTest.searchVocabs('図');
 
@@ -464,17 +478,21 @@ void main() {
       });
 
       test('Should search with level filter', () async {
-        await DatabaseServiceTest.insertVocab(term: '水', meaning: 'water', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '海水', meaning: 'seawater', level: 'N3');
+        await DatabaseServiceTest.insertVocab(
+            term: '水', meaning: 'water', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '海水', meaning: 'seawater', level: 'N3');
 
-        final results = await DatabaseServiceTest.searchVocabs('水', level: 'N5');
+        final results =
+            await DatabaseServiceTest.searchVocabs('水', level: 'N5');
 
         expect(results.length, 1);
         expect(results.first.term, '水');
       });
 
       test('Should return empty list for no matches', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
 
         final results = await DatabaseServiceTest.searchVocabs('xyz');
 
@@ -482,7 +500,8 @@ void main() {
       });
 
       test('Should handle special characters in search', () async {
-        await DatabaseServiceTest.insertVocab(term: '100%', meaning: '100 percent', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '100%', meaning: '100 percent', level: 'N5');
 
         final results = await DatabaseServiceTest.searchVocabs('100%');
 
@@ -500,14 +519,14 @@ void main() {
         );
 
         final originalUpdatedAt = vocab.updatedAt;
-        
+
         // Small delay to ensure different timestamp
         await Future.delayed(const Duration(milliseconds: 10));
 
         vocab.meaning = 'puppy';
         vocab.note = 'Updated meaning';
         vocab.favorite = true;
-        
+
         final updateCount = await DatabaseServiceTest.updateVocab(vocab);
         expect(updateCount, 1);
 
@@ -546,6 +565,7 @@ void main() {
       test('Should throw error when updating vocab without ID', () async {
         final vocab = Vocab(
           term: 'test',
+          hiragana: 'test',
           meaning: 'test',
           level: 'N5',
           createdAt: DateTime.now(),
@@ -680,7 +700,8 @@ void main() {
     });
 
     group('Cascade Delete Operations', () {
-      test('Should delete review logs when vocab is deleted (cascade)', () async {
+      test('Should delete review logs when vocab is deleted (cascade)',
+          () async {
         final vocab = await DatabaseServiceTest.insertVocab(
           term: '魚',
           meaning: 'fish',
@@ -716,11 +737,13 @@ void main() {
         expect(logs.length, 0);
 
         // Verify using count as well
-        final logCount = await DatabaseServiceTest.countReviewLogs(vocabId: vocab.id!);
+        final logCount =
+            await DatabaseServiceTest.countReviewLogs(vocabId: vocab.id!);
         expect(logCount, 0);
       });
 
-      test('Should cascade delete multiple vocabs with their review logs', () async {
+      test('Should cascade delete multiple vocabs with their review logs',
+          () async {
         final vocab1 = await DatabaseServiceTest.insertVocab(
           term: '山',
           meaning: 'mountain',
@@ -770,18 +793,24 @@ void main() {
       test('Should count vocabs correctly', () async {
         expect(await DatabaseServiceTest.countVocabs(), 0);
 
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
         expect(await DatabaseServiceTest.countVocabs(), 1);
 
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '図書館', meaning: 'library', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '図書館', meaning: 'library', level: 'N4');
         expect(await DatabaseServiceTest.countVocabs(), 3);
       });
 
       test('Should count vocabs by level', () async {
-        await DatabaseServiceTest.insertVocab(term: '犬', meaning: 'dog', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '猫', meaning: 'cat', level: 'N5');
-        await DatabaseServiceTest.insertVocab(term: '図書館', meaning: 'library', level: 'N4');
+        await DatabaseServiceTest.insertVocab(
+            term: '犬', meaning: 'dog', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '猫', meaning: 'cat', level: 'N5');
+        await DatabaseServiceTest.insertVocab(
+            term: '図書館', meaning: 'library', level: 'N4');
 
         expect(await DatabaseServiceTest.countVocabs(level: 'N5'), 2);
         expect(await DatabaseServiceTest.countVocabs(level: 'N4'), 1);
@@ -790,24 +819,26 @@ void main() {
 
       test('Should count review logs correctly', () async {
         final vocab1 = await DatabaseServiceTest.insertVocab(
-          term: '犬', meaning: 'dog', level: 'N5');
+            term: '犬', meaning: 'dog', level: 'N5');
         final vocab2 = await DatabaseServiceTest.insertVocab(
-          term: '猫', meaning: 'cat', level: 'N5');
+            term: '猫', meaning: 'cat', level: 'N5');
 
         expect(await DatabaseServiceTest.countReviewLogs(), 0);
 
         await DatabaseServiceTest.insertReviewLog(
-          vocabId: vocab1.id!, grade: 3, intervalAfter: 1);
+            vocabId: vocab1.id!, grade: 3, intervalAfter: 1);
         expect(await DatabaseServiceTest.countReviewLogs(), 1);
 
         await DatabaseServiceTest.insertReviewLog(
-          vocabId: vocab1.id!, grade: 4, intervalAfter: 2);
+            vocabId: vocab1.id!, grade: 4, intervalAfter: 2);
         await DatabaseServiceTest.insertReviewLog(
-          vocabId: vocab2.id!, grade: 5, intervalAfter: 3);
+            vocabId: vocab2.id!, grade: 5, intervalAfter: 3);
         expect(await DatabaseServiceTest.countReviewLogs(), 3);
 
-        expect(await DatabaseServiceTest.countReviewLogs(vocabId: vocab1.id!), 2);
-        expect(await DatabaseServiceTest.countReviewLogs(vocabId: vocab2.id!), 1);
+        expect(
+            await DatabaseServiceTest.countReviewLogs(vocabId: vocab1.id!), 2);
+        expect(
+            await DatabaseServiceTest.countReviewLogs(vocabId: vocab2.id!), 1);
       });
     });
 
@@ -836,7 +867,8 @@ void main() {
         final retrieved = await DatabaseServiceTest.readVocabById(vocab.id!);
         expect(retrieved!.term, '100%の人');
         expect(retrieved.meaning, 'Güter & Bäder');
-        expect(retrieved.note, "It's a test with 'quotes' and \"double quotes\"");
+        expect(
+            retrieved.note, "It's a test with 'quotes' and \"double quotes\"");
       });
 
       test('Should handle large text data', () async {
@@ -859,7 +891,8 @@ void main() {
 
       test('Should handle extreme date values', () async {
         final minDate = DateTime.fromMillisecondsSinceEpoch(0);
-        final maxDate = DateTime.fromMillisecondsSinceEpoch(8640000000000000); // Max JS date
+        final maxDate = DateTime.fromMillisecondsSinceEpoch(
+            8640000000000000); // Max JS date
 
         final vocab = await DatabaseServiceTest.insertVocab(
           term: 'test',
@@ -930,6 +963,7 @@ void main() {
           final vocabCopy = Vocab(
             id: vocab.id,
             term: vocab.term,
+            hiragana: vocab.hiragana,
             meaning: 'updated$i',
             level: vocab.level,
             note: vocab.note,
