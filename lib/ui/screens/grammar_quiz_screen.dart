@@ -3,8 +3,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:get/get.dart';
 
+import '../../controllers/settings_controller.dart';
 import '../../models/grammar.dart';
+import 'victory_screen.dart';
 
 class GrammarQuizScreen extends StatefulWidget {
   const GrammarQuizScreen({super.key});
@@ -14,7 +17,9 @@ class GrammarQuizScreen extends StatefulWidget {
 }
 
 class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
+  final SettingsController settings = Get.find();
   List<Grammar> pool = [];
+  late int maxQuestions;
   int qIndex = 0;
   int correct = 0;
   List<Grammar> options = [];
@@ -35,6 +40,11 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
       final list = jsonDecode(raw) as List;
       pool =
           list.map((e) => Grammar.fromMap(e as Map<String, dynamic>)).toList();
+      pool.shuffle();
+      maxQuestions = min(settings.quizLength.value, pool.length);
+      pool = pool.take(maxQuestions).toList();
+      qIndex = 0;
+      correct = 0;
       _nextQ();
       setState(() {});
     } catch (e) {
@@ -45,10 +55,12 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
   }
 
   void _nextQ() {
-    if (pool.isEmpty) return;
-    pool.shuffle();
-    current = pool.first;
+    if (qIndex >= maxQuestions) {
+      _finishQuiz();
+      return;
+    }
     final rng = Random();
+    current = pool[qIndex];
     final distractors = List<Grammar>.from(pool)..remove(current);
     distractors.shuffle(rng);
     final optionCount = min(4, pool.length);
@@ -152,5 +164,35 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
         ),
       ),
     );
+  }
+
+  void _finishQuiz() {
+    final wrong = maxQuestions - correct;
+    final percent = correct / maxQuestions * 100;
+    if (percent >= 70) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (_) => VictoryScreen(correct: correct, total: maxQuestions)),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Kết quả'),
+          content: Text(
+              'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: const Text('Đóng'),
+            )
+          ],
+        ),
+      );
+    }
   }
 }
