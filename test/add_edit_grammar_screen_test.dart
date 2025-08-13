@@ -4,7 +4,8 @@ import 'package:nihongo_flashcard/models/grammar.dart';
 import 'package:nihongo_flashcard/ui/screens/add_edit_grammar_screen.dart';
 
 void main() {
-  testWidgets('AddEditGrammarScreen returns new grammar on save', (tester) async {
+  testWidgets('AddEditGrammarScreen returns new grammar on save',
+      (tester) async {
     Grammar? result;
 
     await tester.pumpWidget(MaterialApp(
@@ -24,12 +25,16 @@ void main() {
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.widgetWithText(TextFormField, 'Tiêu đề'), 'ている');
-    await tester.enterText(find.widgetWithText(TextFormField, 'Nghĩa'), 'đang làm');
-    await tester.enterText(find.widgetWithText(TextFormField, 'Ví dụ'), '本を読んでいる');
-    await tester.enterText(find.widgetWithText(TextFormField, 'Nội dung'), 'content');
+    await tester.enterText(
+        find.widgetWithText(TextFormField, 'Tiêu đề'), 'ている');
+    await tester.enterText(
+        find.widgetWithText(TextFormField, 'Nghĩa'), 'đang làm');
+    await tester.enterText(
+        find.widgetWithText(TextFormField, 'Ví dụ'), '本を読んでいる');
+    await tester.enterText(
+        find.widgetWithText(TextFormField, 'Nội dung'), 'content');
 
-    await tester.tap(find.text('Lưu'));
+    await tester.tap(find.byIcon(Icons.save));
     await tester.pumpAndSettle();
 
     expect(result, isNotNull);
@@ -39,7 +44,8 @@ void main() {
     expect(result!.content, 'content');
   });
 
-  testWidgets('AddEditGrammarScreen prefills data when editing', (tester) async {
+  testWidgets('AddEditGrammarScreen prefills data when editing',
+      (tester) async {
     final grammar = Grammar(
       title: 'は',
       meaning: 'chủ đề',

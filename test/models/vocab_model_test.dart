@@ -104,7 +104,8 @@ void main() {
         expect(map['easiness'], 2.8);
         expect(map['repetitions'], 3);
         expect(map['intervalDays'], 7);
-        expect(map['lastReviewedAt'], testLastReviewedAt.millisecondsSinceEpoch);
+        expect(
+            map['lastReviewedAt'], testLastReviewedAt.millisecondsSinceEpoch);
         expect(map['dueAt'], testDueAt.millisecondsSinceEpoch);
         expect(map['favorite'], 1); // boolean converted to int
         expect(map['createdAt'], testCreatedAt.millisecondsSinceEpoch);
@@ -428,7 +429,8 @@ void main() {
           hiragana: '家',
           meaning: 'house',
           level: 'N5',
-          dueAt: testDueAt.add(const Duration(minutes: 1)), // slightly different
+          dueAt:
+              testDueAt.add(const Duration(minutes: 1)), // slightly different
           createdAt: testCreatedAt,
           updatedAt: testUpdatedAt,
         );
@@ -467,7 +469,7 @@ void main() {
 
       test('copyWith single field change', () {
         final copy = originalVocab.copyWith(meaning: 'educational institution');
-        
+
         expect(copy.id, originalVocab.id);
         expect(copy.term, originalVocab.term);
         expect(copy.meaning, 'educational institution'); // changed
@@ -486,7 +488,7 @@ void main() {
       test('copyWith multiple field changes', () {
         final newDueAt = DateTime(2024, 2, 1);
         final newUpdatedAt = DateTime(2024, 1, 15);
-        
+
         final copy = originalVocab.copyWith(
           level: 'N4',
           favorite: true,
@@ -500,7 +502,7 @@ void main() {
         expect(copy.easiness, 3.0);
         expect(copy.dueAt, newDueAt);
         expect(copy.updatedAt, newUpdatedAt);
-        
+
         // Unchanged fields
         expect(copy.id, originalVocab.id);
         expect(copy.term, originalVocab.term);
@@ -517,7 +519,8 @@ void main() {
         // so passing null doesn't override fields to null, it preserves original values
         final copy = originalVocab.copyWith(
           id: null, // This won't set id to null, it will keep originalVocab.id
-          note: null, // This won't set note to null, it will keep originalVocab.note
+          note:
+              null, // This won't set note to null, it will keep originalVocab.note
           lastReviewedAt: null,
           dueAt: null,
         );
@@ -528,7 +531,7 @@ void main() {
         expect(copy.lastReviewedAt, originalVocab.lastReviewedAt);
         expect(copy.dueAt, originalVocab.dueAt);
       });
-      
+
       test('copyWith can override non-null fields to different values', () {
         // Start with a vocab that has some null fields
         final vocabWithNulls = Vocab(
@@ -540,12 +543,12 @@ void main() {
           updatedAt: testUpdatedAt,
           // id, note, lastReviewedAt, dueAt are null by default
         );
-        
+
         final copy = vocabWithNulls.copyWith(
           id: 42,
           note: 'new note',
         );
-        
+
         expect(copy.id, 42);
         expect(copy.note, 'new note');
         expect(copy.lastReviewedAt, isNull); // still null
@@ -555,7 +558,7 @@ void main() {
       test('copyWith preserves original object', () {
         final originalTerm = originalVocab.term;
         final originalMeaning = originalVocab.meaning;
-        
+
         originalVocab.copyWith(
           term: 'modified',
           hiragana: 'modified',
@@ -699,6 +702,7 @@ void main() {
       test('handles empty and special strings', () {
         final vocab = Vocab(
           term: '', // empty string
+          hiragana: '',
           meaning: '   ', // whitespace
           level: '🎌', // emoji
           note: 'Line 1\nLine 2\tTab', // special characters
