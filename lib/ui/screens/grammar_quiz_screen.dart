@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../controllers/settings_controller.dart';
 import '../../models/grammar.dart';
-import 'victory_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class GrammarQuizScreen extends StatefulWidget {
   const GrammarQuizScreen({super.key});
@@ -175,31 +175,27 @@ class _GrammarQuizScreenState extends State<GrammarQuizScreen> {
   void _finishQuiz() {
     final wrong = maxQuestions - correct;
     final percent = correct / maxQuestions * 100;
-    if (percent >= 70) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (_) =>
-                VictoryScreen(correct: correct, total: maxQuestions)),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Kết quả'),
-          content: Text(
-              'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text('Đóng'),
-            )
-          ],
-        ),
-      );
+      if (percent >= 70) {
+        context.go('/victory',
+            extra: {'correct': correct, 'total': maxQuestions});
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Kết quả'),
+            content: Text(
+                'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.go('/');
+                },
+                child: const Text('Đóng'),
+              )
+            ],
+          ),
+        );
+      }
     }
-  }
 }

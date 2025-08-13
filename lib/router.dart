@@ -16,6 +16,7 @@ import 'ui/screens/grammar_quiz_screen.dart';
 import 'ui/screens/grammar_detail_screen.dart';
 import 'ui/screens/add_edit_grammar_screen.dart';
 import 'ui/screens/stats_screen.dart';
+import 'ui/screens/victory_screen.dart';
 
 final router = GoRouter(routes: [
   GoRoute(path: '/', builder: (_, __) => const MainScreen()),
@@ -56,4 +57,11 @@ final router = GoRouter(routes: [
     },
   ),
   GoRoute(path: '/stats', builder: (_, __) => StatsScreen()),
+  GoRoute(
+    path: '/victory',
+    builder: (context, state) {
+      final data = state.extra as Map<String, int>;
+      return VictoryScreen(correct: data['correct']!, total: data['total']!);
+    },
+  ),
 ]);

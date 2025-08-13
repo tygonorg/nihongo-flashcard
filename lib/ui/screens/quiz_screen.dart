@@ -6,7 +6,7 @@ import '../../services/database_service.dart';
 import '../../controllers/level_controller.dart';
 import '../../controllers/settings_controller.dart';
 import '../../models/vocab.dart';
-import 'victory_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -58,33 +58,29 @@ class _State extends State<QuizScreen> {
   void _finishQuiz() {
     final wrong = maxQuestions - correct;
     final percent = correct / maxQuestions * 100;
-    if (percent >= 70) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => VictoryScreen(correct: correct, total: maxQuestions),
-        ),
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Kết quả'),
-          content: Text(
-              'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              },
-              child: const Text('Đóng'),
-            )
-          ],
-        ),
-      );
+      if (percent >= 70) {
+        context.go('/victory',
+            extra: {'correct': correct, 'total': maxQuestions});
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text('Kết quả'),
+            content: Text(
+                'Điểm: $correct/$maxQuestions\nĐúng: $correct\nSai: $wrong\nTỉ lệ: ${percent.toStringAsFixed(1)}%'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.go('/');
+                },
+                child: const Text('Đóng'),
+              )
+            ],
+          ),
+        );
+      }
     }
-  }
 
   @override
   Widget build(BuildContext context) {
