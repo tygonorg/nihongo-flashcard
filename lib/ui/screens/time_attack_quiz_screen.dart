@@ -21,7 +21,8 @@ class _State extends State<TimeAttackQuizScreen> {
   Vocab? current;
   List<Vocab> options = [];
   int correct = 0;
-  int total = 0;
+  int answered = 0;
+  int index = 0;
   int remaining = 60;
   Timer? timer;
 
@@ -49,11 +50,11 @@ class _State extends State<TimeAttackQuizScreen> {
 
   void _nextQ() {
     if (pool.isEmpty) return;
-    if (total >= pool.length) {
+    if (index >= pool.length) {
       pool.shuffle();
-      total = 0;
+      index = 0;
     }
-    current = pool[total];
+    current = pool[index];
     final rng = Random();
     final distractors = List<Vocab>.from(pool)..remove(current);
     distractors.shuffle();
@@ -62,14 +63,19 @@ class _State extends State<TimeAttackQuizScreen> {
 
   void _answer(Vocab selected) {
     if (selected.id == current!.id) correct++;
-    total++;
+    answered++;
+    index++;
     _nextQ();
     setState(() {});
   }
 
   void _finishQuiz() {
     timer?.cancel();
-    context.go('/victory', extra: {'correct': correct, 'total': total});
+    if (answered == 0) {
+      context.pop();
+      return;
+    }
+    context.go('/victory', extra: {'correct': correct, 'total': answered});
   }
 
   @override
@@ -120,4 +126,3 @@ class _State extends State<TimeAttackQuizScreen> {
     super.dispose();
   }
 }
-
