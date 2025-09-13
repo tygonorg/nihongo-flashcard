@@ -9,6 +9,7 @@ import 'ui/screens/quiz_screen.dart';
 import 'ui/screens/true_false_quiz_screen.dart';
 import 'ui/screens/fill_in_blank_quiz_screen.dart';
 import 'ui/screens/matching_quiz_screen.dart';
+import 'ui/screens/time_attack_quiz_screen.dart';
 import 'ui/screens/kanji_flashcards_screen.dart';
 import 'ui/screens/kanji_quiz_screen.dart';
 import 'ui/screens/add_edit_kanji_screen.dart';
@@ -32,6 +33,7 @@ final router = GoRouter(routes: [
   GoRoute(path: '/quiz-tf', builder: (_, __) => const TrueFalseQuizScreen()),
   GoRoute(path: '/quiz-fill', builder: (_, __) => const FillInBlankQuizScreen()),
   GoRoute(path: '/quiz-match', builder: (_, __) => const MatchingQuizScreen()),
+  GoRoute(path: '/quiz-time', builder: (_, __) => const TimeAttackQuizScreen()),
   GoRoute(
     path: '/kanji-add',
     builder: (context, state) {

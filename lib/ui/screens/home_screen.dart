@@ -144,6 +144,10 @@ class HomeScreen extends StatelessWidget {
                       icon: Icons.link,
                       label: 'Matching',
                       onTap: () => _selectLevel(context, '/quiz-match')),
+                  _QuickBtn(
+                      icon: Icons.timer,
+                      label: 'Time Attack',
+                      onTap: () => _selectLevel(context, '/quiz-time')),
                 ],
               ),
 
