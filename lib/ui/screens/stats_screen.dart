@@ -81,7 +81,10 @@ class StatsScreen extends StatelessWidget {
                             children: [
                               Container(
                                 height: (e.value * 10).toDouble(),
-                                color: Colors.blue,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
                               ),
                               const SizedBox(height: 4),
                               Text(e.key.substring(5),

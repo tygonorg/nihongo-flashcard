@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 
 class SettingsController extends GetxController {
   RxDouble fontSize = 16.0.obs;
-  Rx<MaterialColor> primaryColor = Colors.blue.obs;
+  // Duolingo-inspired default primary color (vivid green)
+  Rx<MaterialColor> primaryColor = Colors.green.obs;
   RxInt quizLength = 10.obs;
   RxBool soundEnabled = true.obs;
 
