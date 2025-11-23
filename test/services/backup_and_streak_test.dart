@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import '../test_database_helper.dart';
-import 'package:nihongo_flashcard/models/vocab.dart';
 
 void main() {
   setUp(() async {
@@ -32,7 +31,7 @@ void main() {
   });
 
   test('backup and restore', () async {
-    final v = await TestDatabaseService.addVocab(
+    await TestDatabaseService.addVocab(
         term: '犬', hiragana: 'いぬ', meaning: 'chó', level: 'N5');
     final tempDir = await Directory.systemTemp.createTemp();
     final path = '${tempDir.path}/backup.json';

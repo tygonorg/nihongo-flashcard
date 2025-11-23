@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -83,6 +84,20 @@ class _State extends State<FlashcardsScreen> {
                       firstChild: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          if (v.imagePath != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  File(v.imagePath!),
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const SizedBox.shrink(),
+                                ),
+                              ),
+                            ),
                           Text(v.term,
                               style: Theme.of(context)
                                   .textTheme
@@ -97,6 +112,20 @@ class _State extends State<FlashcardsScreen> {
                       secondChild: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          if (v.imagePath != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 16),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  File(v.imagePath!),
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const SizedBox.shrink(),
+                                ),
+                              ),
+                            ),
                           Text(v.meaning,
                               style:
                                   Theme.of(context).textTheme.headlineMedium),

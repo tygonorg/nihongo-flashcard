@@ -75,7 +75,7 @@ class _State extends State<AddEditKanjiScreen> {
             ),
             DropdownButtonFormField(
               decoration: const InputDecoration(labelText: 'Cấp độ'),
-              value: _level,
+              initialValue: _level,
               items: const ['N5','N4','N3','N2','N1']
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                   .toList(),

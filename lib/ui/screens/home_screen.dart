@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                             : (data.vocabCount % 20) / 20.0,
                         minHeight: 10,
                         backgroundColor:
-                            cs.onPrimary.withOpacity(0.25),
+                            cs.onPrimary.withValues(alpha: 0.25),
                         valueColor:
                             AlwaysStoppedAnimation<Color>(cs.onPrimary),
                       ),

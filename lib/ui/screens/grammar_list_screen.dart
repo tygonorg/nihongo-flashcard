@@ -89,7 +89,7 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
       ),
       body: ListView.builder(
         itemCount: _grammars?.length ?? 0,
-        itemBuilder: (context, index) {
+        itemBuilder: (ctx, index) {
           final g = _grammars![index];
           return ListTile(
             title: Text(
@@ -110,15 +110,15 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
             onTap: () => context.push('/grammar-detail', extra: g),
             onLongPress: () async {
               final action = await showModalBottomSheet<String>(
-                context: context,
-                builder: (ctx) => SafeArea(
+                context: ctx,
+                builder: (c) => SafeArea(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ListTile(
                         leading: const Icon(Icons.edit),
                         title: const Text('Sửa'),
-                        onTap: () => Navigator.pop(ctx, 'edit'),
+                        onTap: () => Navigator.pop(c, 'edit'),
                       ),
                     ],
                   ),
@@ -126,6 +126,7 @@ class _GrammarListScreenState extends State<GrammarListScreen> {
               );
               if (action == 'edit') {
                 final updated =
+                    // ignore: use_build_context_synchronously
                     await context.push<Grammar>('/grammar-add', extra: g);
                 if (updated != null) {
                   setState(() => _grammars![index] = updated);

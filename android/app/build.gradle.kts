@@ -37,6 +37,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    configurations.all {
+        resolutionStrategy {
+            force("androidx.activity:activity:1.10.1")
+            force("androidx.activity:activity-ktx:1.10.1")
+        }
+    }
 }
 
 flutter {

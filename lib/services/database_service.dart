@@ -46,7 +46,7 @@ class DatabaseService {
       // Initialize SQLite database
       final db = await openDatabase(
         path,
-        version: 2,
+        version: 3,
         onCreate: _createTables,
         onUpgrade: _onUpgrade,
       );
@@ -160,6 +160,9 @@ class DatabaseService {
     if (oldVersion < 2) {
       await db.execute('ALTER TABLE vocabs ADD COLUMN hiragana TEXT NOT NULL DEFAULT ""');
     }
+    if (oldVersion < 3) {
+      await db.execute('ALTER TABLE vocabs ADD COLUMN imagePath TEXT');
+    }
   }
 
   // CRUD Operations for Vocab
@@ -227,6 +230,7 @@ class DatabaseService {
     required String meaning,
     required String level,
     String? note,
+    String? imagePath,
     bool favorite = false,
   }) async {
     final db = await database;
@@ -238,6 +242,7 @@ class DatabaseService {
       meaning: meaning,
       level: level,
       note: note,
+      imagePath: imagePath,
       favorite: favorite,
       createdAt: now,
       updatedAt: now,
@@ -256,6 +261,7 @@ class DatabaseService {
     String? meaning,
     String? level,
     String? note,
+    String? imagePath,
     bool? favorite,
   }) async {
     if (vocab.id == null) {
@@ -270,6 +276,7 @@ class DatabaseService {
     if (meaning != null) vocab.meaning = meaning;
     if (level != null) vocab.level = level;
     if (note != null) vocab.note = note;
+    if (imagePath != null) vocab.imagePath = imagePath;
     if (favorite != null) vocab.favorite = favorite;
     vocab.updatedAt = DateTime.now();
 

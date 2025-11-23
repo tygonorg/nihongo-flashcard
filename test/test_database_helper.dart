@@ -42,6 +42,7 @@ class TestDatabaseHelper {
         meaning TEXT NOT NULL,
         level TEXT NOT NULL,
         note TEXT,
+        imagePath TEXT,
         easiness REAL NOT NULL DEFAULT 2.5,
         repetitions INTEGER NOT NULL DEFAULT 0,
         intervalDays INTEGER NOT NULL DEFAULT 0,
@@ -116,6 +117,7 @@ class TestDatabaseService {
     required String meaning,
     required String level,
     String? note,
+    String? imagePath,
     bool favorite = false,
   }) async {
     // Validate required fields
@@ -132,6 +134,7 @@ class TestDatabaseService {
       meaning: meaning,
       level: level,
       note: note,
+      imagePath: imagePath,
       favorite: favorite,
       createdAt: now,
       updatedAt: now,
@@ -205,6 +208,7 @@ class TestDatabaseService {
     String? meaning,
     String? level,
     String? note,
+    String? imagePath,
     bool? favorite,
   }) async {
     if (vocab.id == null) {
@@ -218,6 +222,7 @@ class TestDatabaseService {
     if (meaning != null) vocab.meaning = meaning;
     if (level != null) vocab.level = level;
     if (note != null) vocab.note = note;
+    if (imagePath != null) vocab.imagePath = imagePath;
     if (favorite != null) vocab.favorite = favorite;
     vocab.updatedAt = DateTime.now();
 

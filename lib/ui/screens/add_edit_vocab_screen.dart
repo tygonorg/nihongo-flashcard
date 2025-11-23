@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../models/vocab.dart';
 import '../../locator.dart';
 import '../../services/database_service.dart';
@@ -17,7 +19,9 @@ class _State extends State<AddEditVocabScreen> {
   String _meaning = '';
   String _level = 'N5';
   String? _note;
+  String? _imagePath;
   final DatabaseService db = locator<DatabaseService>();
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -28,6 +32,16 @@ class _State extends State<AddEditVocabScreen> {
       _meaning = widget.vocab!.meaning;
       _level = widget.vocab!.level;
       _note = widget.vocab!.note;
+      _imagePath = widget.vocab!.imagePath;
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _imagePath = image.path;
+      });
     }
   }
 
@@ -40,6 +54,38 @@ class _State extends State<AddEditVocabScreen> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            GestureDetector(
+              onTap: _pickImage,
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey[400]!),
+                ),
+                child: _imagePath != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.file(
+                          File(_imagePath!),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Center(child: Icon(Icons.broken_image, size: 50, color: Colors.grey));
+                          },
+                        ),
+                      )
+                    : const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add_a_photo, size: 50, color: Colors.grey),
+                          SizedBox(height: 8),
+                          Text('Thêm ảnh minh hoạ', style: TextStyle(color: Colors.grey)),
+                        ],
+                      ),
+              ),
+            ),
+            const SizedBox(height: 16),
             TextFormField(
               initialValue: _term,
               decoration: const InputDecoration(labelText: 'Từ (kanji/kana)'),
@@ -60,7 +106,7 @@ class _State extends State<AddEditVocabScreen> {
             ),
             DropdownButtonFormField(
               decoration: const InputDecoration(labelText: 'Cấp độ'),
-              value: _level,
+              initialValue: _level,
               items: const ['N5','N4','N3','N2','N1']
                   .map((e) => DropdownMenuItem(value: e, child: Text(e)))
                   .toList(),
@@ -98,7 +144,8 @@ class _State extends State<AddEditVocabScreen> {
                             hiragana: _hiragana,
                             meaning: _meaning,
                             level: _level,
-                            note: _note);
+                            note: _note,
+                            imagePath: _imagePath);
                       } else {
                         await db.updateVocab(
                             widget.vocab!,
@@ -106,7 +153,8 @@ class _State extends State<AddEditVocabScreen> {
                             hiragana: _hiragana,
                             meaning: _meaning,
                             level: _level,
-                            note: _note);
+                            note: _note,
+                            imagePath: _imagePath);
                       }
 
                         if (!context.mounted) return;

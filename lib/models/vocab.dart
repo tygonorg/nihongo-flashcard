@@ -5,6 +5,7 @@ class Vocab {
   String meaning;
   String level;
   String? note;
+  String? imagePath;
   
   /// Trường cho SRS (SM-2 rút gọn)
   double easiness;
@@ -27,6 +28,7 @@ class Vocab {
     required this.meaning,
     required this.level,
     this.note,
+    this.imagePath,
     this.easiness = 2.5,
     this.repetitions = 0,
     this.intervalDays = 0,
@@ -45,6 +47,7 @@ class Vocab {
       'meaning': meaning,
       'level': level,
       'note': note,
+      'imagePath': imagePath,
       'easiness': easiness,
       'repetitions': repetitions,
       'intervalDays': intervalDays,
@@ -64,6 +67,7 @@ class Vocab {
       meaning: map['meaning'],
       level: map['level'],
       note: map['note'],
+      imagePath: map['imagePath'],
       easiness: map['easiness'] ?? 2.5,
       repetitions: map['repetitions'] ?? 0,
       intervalDays: map['intervalDays'] ?? 0,
@@ -87,6 +91,7 @@ class Vocab {
     String? meaning,
     String? level,
     String? note,
+    String? imagePath,
     double? easiness,
     int? repetitions,
     int? intervalDays,
@@ -103,6 +108,7 @@ class Vocab {
       meaning: meaning ?? this.meaning,
       level: level ?? this.level,
       note: note ?? this.note,
+      imagePath: imagePath ?? this.imagePath,
       easiness: easiness ?? this.easiness,
       repetitions: repetitions ?? this.repetitions,
       intervalDays: intervalDays ?? this.intervalDays,
@@ -124,6 +130,7 @@ class Vocab {
         other.meaning == meaning &&
         other.level == level &&
         other.note == note &&
+        other.imagePath == imagePath &&
         other.easiness == easiness &&
         other.repetitions == repetitions &&
         other.intervalDays == intervalDays &&
@@ -143,6 +150,7 @@ class Vocab {
       meaning,
       level,
       note,
+      imagePath,
       easiness,
       repetitions,
       intervalDays,
@@ -156,6 +164,6 @@ class Vocab {
 
   @override
   String toString() {
-    return 'Vocab{' 'id: $id, term: $term, hiragana: $hiragana, meaning: $meaning, level: $level, note: $note, ' 'easiness: $easiness, repetitions: $repetitions, intervalDays: $intervalDays, lastReviewedAt: $lastReviewedAt, ' 'dueAt: $dueAt, favorite: $favorite, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'Vocab{' 'id: $id, term: $term, hiragana: $hiragana, meaning: $meaning, level: $level, note: $note, imagePath: $imagePath, ' 'easiness: $easiness, repetitions: $repetitions, intervalDays: $intervalDays, lastReviewedAt: $lastReviewedAt, ' 'dueAt: $dueAt, favorite: $favorite, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 }
